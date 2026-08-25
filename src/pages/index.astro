@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+const pageTitle = '東港華僑市場旅遊指南｜漁港文化、交通、停車與行前資訊';
+const pageDescription = '獨立非營利的東港漁港漁產品直銷中心（原華僑市場）旅遊指南：整理市場故事、開放資訊、海鮮文化、交通、停車、無障礙、周邊景點與 FAQ。';
+const siteUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
+const publicImage = (fileName: string, remote: string) => {
+  const path = resolve(process.cwd(), 'public', 'images', fileName);
+  return existsSync(path) ? `/images/${fileName}` : remote;
+};
+const localMarketPath = resolve(process.cwd(), 'public', 'images', 'market-exterior.jpg');
+const hasLocalMarketPhoto = existsSync(localMarketPath);
+const imageUrl = publicImage('market-exterior.jpg', 'https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_A12-00342_14.jpg');
+const harborImage = publicImage('donggang-harbor.jpg', 'https://upload.wikimedia.org/wikipedia/commons/9/9a/%E5%B1%8F%E6%9D%B1%E7%B8%A3%E6%9D%B1%E6%B8%AF%E6%BC%81%E6%B8%AF.jpg');
+const bridgeImage = publicImage('dapeng-bay-bridge.jpg', 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Dapeng_Bay_National_Scenic_Area%2C_Tourism_Administration_1.jpg');
+const metaImage = hasLocalMarketPhoto ? '/images/market-exterior.jpg' : '/icons/apple-touch-icon.png';
+const schemaImage = hasLocalMarketPhoto && Astro.site ? new URL('/images/market-exterior.jpg', Astro.site).toString() : undefined;
+
+const attractionSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: '東港漁港漁產品直銷中心（原華僑市場）',
+  alternateName: ['華僑市場', 'Huaqiao Fish Market'],
+  description: pageDescription,
+  ...(siteUrl ? { url: siteUrl } : {}),
+  ...(schemaImage ? { image: [schemaImage] } : {}),
+  telephone: '+886-8-833-9969',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '朝隆路39號',
+    addressLocality: '東港鎮',
+    addressRegion: '屏東縣',
+    postalCode: '928',
+    addressCountry: 'TW'
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 22.468089, longitude: 120.44332 },
+  openingHours: 'Mo-Su 11:00-20:00',
+  additionalProperty: [{
+    '@type': 'PropertyValue',
+    name: '例行清潔公休日',
+    value: '每月第一個星期二；實際營業與攤位狀況以最新公告及現場為準'
+  }],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: 4.2,
+    reviewCount: 67,
+    bestRating: 5
+  }
+};
+
+const faqs = [
+  ['為什麼叫「華僑市場」？','官方觀光資料記載，早期東琉線渡船頭旁的路邊漁貨攤規模不大，返程遊客常大量採買，甚至整攤買下。攤販形容這些客人像出手闊綽的返鄉華僑，市場逐漸成形後便沿用「華僑市場」的稱呼。'],
+  ['市場幾點營業？每月都有公休日嗎？','交通部觀光署頁面標示 11:00–20:00，並註明每月第一個星期二為清潔日公休；大鵬灣官方資料對起始時間另有接近中午的描述。營業時間可能因攤位與現場安排調整，建議出發前再查最新公告。'],
+  ['需要購買門票嗎？','這裡是漁產品直銷與餐飲型市場。公開資料沒有列出固定的一般參觀門票金額；主要花費通常來自自行選購的漁貨、熟食或料理服務。若遇活動或個別服務另行收費，請依現場標示。'],
+  ['建議停留多久？什麼時段比較適合？','若以逛市場、看漁產與簡單用餐為主，可預留約 1–2 小時；若還要前往漁港、東隆宮或大鵬灣，可安排半日。市場屬黃昏型魚市，中午後較有市場感；怕人潮者可避開週末與用餐尖峰。'],
+  ['從高雄國際機場怎麼去？','可搭 9117／9117A 等客運方向前往東港，再依停靠站步行或轉乘；也可直接搭計程車或合法叫車服務。班次、停靠與車程會變動，請以當日運輸資訊為準。'],
+  ['有停車場、廁所與無障礙設施嗎？','官方資料列有漁港周邊停車場；交通部觀光署並列出 2 間無障礙廁所、1 台輪椅借用以及無障礙斜坡。一般廁所、停車費率與可用車位仍以現場為準。'],
+  ['不吃生食也適合來嗎？','適合。市場除鮮魚與生食，也有熟食、漁特產與可將選購漁貨交由料理的服務型態。對海鮮過敏或有特殊飲食需求者，應直接向攤位確認食材與交叉接觸風險。']
+];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q,a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+};
+
+const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6567.399795228191!2d120.44074507712622!3d22.468088979566218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3471e18f8d367ea7%3A0x36c27f3352f7c7a4!2sHuaqiao%20Fish%20Market!5e1!3m2!1szh-TW!2stw!4v1787622030309!5m2!1szh-TW!2stw';
+---
+<BaseLayout title={pageTitle} description={pageDescription} image={metaImage} jsonLd={[attractionSchema, faqSchema]}>
+  <section class="relative min-h-[76vh] overflow-hidden bg-[#062e36] text-white">
+    <img src={imageUrl} alt="東港漁港漁產品直銷中心（華僑市場）外觀" class="absolute inset-0 h-full w-full object-cover opacity-65" referrerpolicy="no-referrer" />
+    <div class="absolute inset-0 bg-gradient-to-r from-[#042c35]/95 via-[#073b43]/75 to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#062e36] to-transparent"></div>
+    <div class="photo-credit absolute right-4 top-4 z-10">市場外觀｜交通部觀光署公開景點圖片</div>
+    <div class="shell relative grid min-h-[76vh] items-end gap-8 pb-16 pt-24 lg:grid-cols-[1.25fr_.75fr]">
+      <div>
+        <div class="mb-5 flex flex-wrap gap-2"><span class="badge !border-white/25 !bg-white/12 !text-white">屏東・東港</span><span class="badge !border-white/25 !bg-white/12 !text-white">漁港文化 × 黃昏魚市</span></div>
+        <p class="text-sm font-extrabold tracking-[.24em] text-[#ffd773]">東港漁港漁產品直銷中心</p>
+        <h1 class="mt-3 max-w-4xl text-[clamp(3rem,8vw,6.8rem)] font-black leading-[.94] tracking-[-.055em]">華僑市場<br/><span class="text-[#ffd773]">海味上岸的地方</span></h1>
+        <p class="mt-7 max-w-2xl text-lg text-[#d7e9e6]">不是只為「吃海鮮」而來。這裡更像一堂正在發生的東港漁業課：看魚貨、看市場如何分區，也看渡船、漁港與大鵬灣如何共同塑造這座海邊城鎮。</p>
+      </div>
+      <div class="ticket p-6">
+        <p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">行前速覽</p>
+        <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
+          <div><dt class="text-[#9fc5c1]">官方時間</dt><dd class="mt-1 font-extrabold">11:00–20:00*</dd></div>
+          <div><dt class="text-[#9fc5c1]">清潔公休</dt><dd class="mt-1 font-extrabold">每月第一個星期二</dd></div>
+          <div><dt class="text-[#9fc5c1]">建議停留</dt><dd class="mt-1 font-extrabold">約 1–2 小時</dd></div>
+          <div><dt class="text-[#9fc5c1]">地址</dt><dd class="mt-1 font-extrabold">東港鎮朝隆路 39 號</dd></div>
+        </dl>
+        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">* 公開官方資料對開始營業時間有些微差異，出發前請以最新公告與現場為準。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section market-grid" id="story">
+    <div class="shell grid gap-12 lg:grid-cols-[.82fr_1.18fr]">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <p class="eyebrow">市場故事</p><h2 class="h2">一個名字，連著渡船、漁獲與東港人的生意日常</h2>
+      </div>
+      <div class="space-y-8">
+        <div class="card p-7 md:p-9">
+          <h3 class="text-2xl font-black">「華僑」不是族群名稱，而是一段市場口耳相傳的比喻</h3>
+          <p class="mt-4 text-[#456267]">交通部觀光署記錄了一段在地說法：早年渡船頭周邊的漁貨攤規模小、數量有限，小琉球返程遊客常在回家前一次大量採買，甚至整攤買走。攤販把這種豪爽消費比作「返鄉華僑」，固定市場形成後，「華僑市場」也就成了廣為人知的名字。</p>
+        </div>
+        <div class="grid gap-5 md:grid-cols-2">
+          <div class="card p-7"><div class="text-5xl font-black text-[#bb3026]">2012</div><h3 class="mt-2 font-black">原址重建後的新階段</h3><p class="mt-2 text-sm text-[#456267]">舊市場因老舊重建，2012 年 5 月完工啟用，正式名稱改為「東港漁港漁產品直銷中心」。</p></div>
+          <div class="card p-7"><div class="text-5xl font-black text-[#0b6871]">400+</div><h3 class="mt-2 font-black">多區域的海鮮市場</h3><p class="mt-2 text-sm text-[#456267]">官方介紹約近 1,500 坪、400 多個攤位，包含鮮魚、生／熟食、漁特產與美食等分區，樓頂另設觀海平台。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#072f38] text-white" id="visit">
+    <div class="shell">
+      <p class="eyebrow !text-[#ffd773]">行前準備</p><h2 class="h2 max-w-3xl">把它當作「漁港文化現場」，會比只找一頓飯更好玩</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <article class="ticket p-6"><span class="text-3xl">🐟</span><h3 class="mt-4 text-xl font-black">先看鮮魚區</h3><p class="mt-2 text-sm text-[#bad2cf]">觀察當季魚種、尺寸與處理方式；拍照前先詢問攤位意願，不妨礙交易動線。</p></article>
+        <article class="ticket p-6"><span class="text-3xl">🍲</span><h3 class="mt-4 text-xl font-black">再看熟食與料理</h3><p class="mt-2 text-sm text-[#bad2cf]">不吃生食也有選擇。若選購海鮮後代客料理，先確認料理方式、加工費與等待時間。</p></article>
+        <article class="ticket p-6"><span class="text-3xl">🌊</span><h3 class="mt-4 text-xl font-black">留時間給港邊</h3><p class="mt-2 text-sm text-[#bad2cf]">市場與東琉線碼頭、漁港緊密相連，離開室內後再理解船、潮水與漁業空間。</p></article>
+        <article class="ticket p-6"><span class="text-3xl">🧊</span><h3 class="mt-4 text-xl font-black">採買要顧保冷</h3><p class="mt-2 text-sm text-[#bad2cf]">南部氣候溫暖，生鮮離開冷鏈後風險上升；長途攜帶宜自備保冷袋並縮短常溫時間。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p class="eyebrow">真實東港</p><h2 class="h2">從市場延伸出去的東港風景</h2></div><p class="max-w-lg text-sm text-[#557075]">照片用於說明漁港與大鵬灣的真實場景；市場外觀與場景圖片保留來源標示。專案不以生成圖冒充實景。</p></div>
+      <div class="mt-8 grid gap-5 lg:grid-cols-12">
+        <figure class="relative overflow-hidden rounded-[1.5rem] lg:col-span-7"><img src={harborImage} alt="東港漁港停泊的漁船" class="h-[28rem] w-full object-cover" /><figcaption class="photo-credit absolute bottom-3 left-3">東港漁港｜雅婕，CC BY-SA 4.0</figcaption></figure>
+        <figure class="relative overflow-hidden rounded-[1.5rem] lg:col-span-5"><img src={bridgeImage} alt="大鵬灣跨海大橋與帆船" class="h-[28rem] w-full object-cover" /><figcaption class="photo-credit absolute bottom-3 left-3">大鵬灣跨海大橋｜交通部觀光署公開資訊授權</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#f0f5f0]">
+    <div class="shell grid gap-8 lg:grid-cols-2">
+      <div class="card p-8"><p class="eyebrow">時段與費用</p><h2 class="mt-2 text-3xl font-black">最佳時段／停留時間</h2><div class="mt-6 space-y-4 text-[#456267]"><p><strong class="text-[#092f37]">中午後：</strong>較符合官方對黃昏型魚市的描述，也較容易感受交易、熟食與採買節奏。</p><p><strong class="text-[#092f37]">避開尖峰：</strong>不想久候可避開週末、連假與主要用餐時段；人流仍以當日為準。</p><p><strong class="text-[#092f37]">停留：</strong>市場本體約 1–2 小時；若串聯東隆宮、大鵬灣與港區，建議安排半日。</p></div></div>
+      <div class="card p-8"><p class="eyebrow">入場資訊</p><h2 class="mt-2 text-3xl font-black">門票／費用</h2><p class="mt-6 text-[#456267]">公開官方資料未列出固定的一般參觀門票金額。這裡的支出主要來自自行選購的生鮮、熟食、漁特產與料理服務。購買前先確認重量、單價、計價單位與料理費，是魚市場最實用的消費習慣。</p><div class="mt-5 rounded-xl border border-[#e2ad32]/40 bg-[#fff9df] p-4 text-sm"><strong>提醒：</strong>活動、停車、個別服務或臨時設施若有收費，應以現場或主管單位最新公告為準。</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="food">
+    <div class="shell"><p class="eyebrow">在地飲食類型</p><h2 class="h2">周邊美食：推薦「類型」，不替店家排名</h2><p class="lead">本指南不接受商業置入，也不推薦特定商戶。來東港可以從地方漁業與飲食文化的類型理解風味，再依衛生、標價、飲食需求與當天漁獲自行選擇。</p>
+      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {['黑鮪魚與當季生魚片｜重點是來源、保冷與鮮度管理','現流海鮮與代客料理｜先問重量、料理費與等候時間','旗魚加工小吃｜可從魚漿、黑輪等在地形式認識漁產加工','櫻花蝦、乾貨與伴手漁產｜長途攜帶要留意保存方式'].map((x)=><div class="card p-6 font-bold">{x}</div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#092f37] text-white" id="transport">
+    <div class="shell"><p class="eyebrow !text-[#ffd773]">詳細交通</p><h2 class="h2">詳細交通：從機場、高鐵、台鐵到東港最後一段</h2>
+      <div class="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <article class="ticket p-6"><h3 class="text-xl font-black">✈️ 高雄國際機場</h3><p class="mt-3 text-sm text-[#bad2cf]">可利用 9117／9117A 等往東港、大鵬灣方向的公路客運，再依停靠站步行或轉乘。若攜帶大型行李、同行人數較多，也可選擇計程車或合法叫車服務；費用與時間依交通狀況計算。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚄 高鐵左營站</h3><p class="mt-3 text-sm text-[#bad2cf]">大鵬灣官方交通資訊列有台灣好行 9127D、9127G 等往東港方向路線，可留意「東琉線碼頭」等鄰近站點。上車前確認當日班次與停靠。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚆 台鐵／屏東市區</h3><p class="mt-3 text-sm text-[#bad2cf]">由屏東轉運站可搭 8202 往東港，再銜接 9127D；另有 8203 往東港碼頭方向。附近台鐵站仍需轉乘公車或計程車，不建議只看直線距離估算步行。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚌 到站後</h3><p class="mt-3 text-sm text-[#bad2cf]">官方資料列出的「東港漁港漁產品直銷中心」公車站距離非常近；「東琉線碼頭站」亦在步行範圍。站牌位置可能因道路工程調整。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚕 計程車／叫車</h3><p class="mt-3 text-sm text-[#bad2cf]">可作為機場、高鐵、台鐵或東港市區的點到點接駁。建議使用合法車輛，出發前確認跳表或預估費用；連假與渡船尖峰可能增加等待時間。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚗 自駕</h3><p class="mt-3 text-sm text-[#bad2cf]">由高雄方向可銜接台 88 快速道路與國道／省道系統進入東港。最後一段依即時導航前往朝隆路與漁港周邊停車區，避免在市場出入口臨停。</p></article>
+      </div>
+      <div class="mt-9 overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5"><iframe src={mapSrc} width="100%" height="500" style="border:0" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="東港華僑市場 Google 地圖（繁體中文／台灣）"></iframe></div>
+    </div>
+  </section>
+
+  <section class="section" id="facilities">
+    <div class="shell"><p class="eyebrow">旅行機能</p><h2 class="h2">WC、停車、住宿、商超、加油與充電：旅行者真正會用到的資訊</h2>
+      <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {[
+          ['🚻 WC／無障礙','觀光署資料列有 2 間無障礙廁所、1 台輪椅借用與無障礙斜坡；一般廁所位置以現場標示為準。'],
+          ['🅿️ 停車','漁港周邊有停車空間，官方資料列有鄰近停車場。連假與渡船尖峰容易壅塞，車位、費率與出入口以現場為準。'],
+          ['🍽️ 餐飲','市場內有生／熟食與料理型態；周邊亦有海鮮餐飲。本站只提供類型，不對特定店家做推薦或排名。'],
+          ['🛏️ 住宿','若要搭早班船、看港區晨昏或串聯大鵬灣，可搜尋東港鎮合法旅館、旅店、民宿等類型，並在臺灣旅宿網確認登記狀態。'],
+          ['🛒 商超／補給','東港市區可補充飲水、雨具、保冷袋、日用品與簡易藥品；請依步行距離與營業狀況自行選擇，不指定商戶。'],
+          ['⛽ 加油／EV 充電','漁港與東港市區周邊有加油服務。電動車充電點變動較快，出發前請以車廠、停車場或公用充電即時地圖確認可用性與規格。']
+        ].map(([h,p])=><article class="card p-6"><h3 class="text-lg font-black">{h}</h3><p class="mt-2 text-sm text-[#526d72]">{p}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#fff3d2]" id="nearby">
+    <div class="shell"><p class="eyebrow">東港周邊</p><h2 class="h2">周邊景點：把一座魚市放回它的海灣與信仰地景</h2>
+      <div class="mt-8 grid gap-5 lg:grid-cols-3">
+        {[
+          ['東港東隆宮','認識東港王船文化與地方信仰的重要節點；進入宗教空間請尊重祭儀與攝影規範。'],
+          ['鵬灣跨海大橋','大鵬灣辨識度最高的地景之一，適合與環灣道路、潮口一帶串聯。'],
+          ['大鵬灣濕地與環灣空間','從魚市場轉向潟湖、生態與水岸景觀，可看見東港除了漁業之外的另一面。'],
+          ['青洲濱海遊憩區','接近海岸的休憩型場域，適合安排在市場行程之後，但開放與活動狀況應查最新公告。'],
+          ['東琉線碼頭周邊','是東港與小琉球往來的重要交通節點，也解釋了「華僑市場」早期故事為何與返程旅客緊密相連。']
+        ].map(([h,p],i)=><article class="rounded-[1.35rem] bg-white p-7 shadow-sm"><div class="text-sm font-black text-[#bb3026]">0{i+1}</div><h3 class="mt-2 text-xl font-black">{h}</h3><p class="mt-3 text-sm text-[#526d72]">{p}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
+      <div><p class="eyebrow">專業行前提示</p><h2 class="h2">讓落地頁更像專業科普站，而不是觀光廣告</h2><p class="lead">我們把「可查證」放在第一位：對營業時間差異做揭露；不捏造傳說；不把商戶排名包裝成客觀資訊；把市場空間、漁業文化、交通、無障礙與風險提醒放在同一張旅行決策圖上。</p></div>
+      <div class="card p-7"><h3 class="text-xl font-black">現場閱讀提示</h3><ul class="mt-4 space-y-3 text-sm text-[#506b70]"><li>• 地面可能潮濕，穿止滑鞋比穿搭更重要。</li><li>• 生鮮與熟食分區仍可能存在氣味與人流交叉，對過敏原敏感者要主動詢問。</li><li>• 部分攤位支付方式不同，避免只依賴單一支付工具。</li><li>• 海鮮價格受季節、尺寸、漁況影響，不以網路舊價推定當日價格。</li><li>• 帶孩子時留意濕滑、推車通行寬度與尖銳工具作業區。</li></ul></div>
+    </div>
+  </section>
+
+  <section class="section bg-[#edf5f2]" id="faq">
+    <div class="shell"><p class="eyebrow">FAQ</p><h2 class="h2">常見問答</h2><div class="mt-7 grid gap-4">{faqs.map(([q,a])=><details class="card group p-6"><summary class="cursor-pointer list-none pr-8 text-lg font-black">{q}</summary><p class="mt-4 border-t border-[#0b6871]/10 pt-4 text-[#526d72]">{a}</p></details>)}</div></div>
+  </section>
+
+  <section class="section" id="sources">
+    <div class="shell grid gap-8 lg:grid-cols-2"><div><p class="eyebrow">資料來源與方法</p><h2 class="h2">資料來源與查證方法</h2><p class="lead">核心景點資訊優先採用政府與景區管理單位公開資料；若不同官方頁面的營業時間存在差異，網站會直接說明，而不是自行挑選一個看似確定的答案。</p></div><div class="card p-7 text-sm text-[#526d72]"><p class="font-black text-[#092f37]">主要公開資料</p><ul class="mt-3 space-y-2"><li><a class="font-bold text-[#0b6871] underline decoration-[#0b6871]/30 underline-offset-4" href="https://www.taiwan.net.tw/m1.aspx?id=A12-00342&sNo=0001122" target="_blank" rel="noreferrer">交通部觀光署「東港漁港漁產品直銷中心（華僑市場）」景點資料</a></li><li><a class="font-bold text-[#0b6871] underline decoration-[#0b6871]/30 underline-offset-4" href="https://www.dbnsa.gov.tw/attraction/AttractionPage?a=256" target="_blank" rel="noreferrer">交通部觀光署大鵬灣國家風景區管理處景點資料</a>與<a class="font-bold text-[#0b6871] underline decoration-[#0b6871]/30 underline-offset-4" href="https://www.dbnsa.gov.tw/zh-TW/PlanTrip/articles?a=163" target="_blank" rel="noreferrer">區外交通資料</a></li><li>屏東縣政府交通旅遊處與東港鎮公所公開旅遊／交通資訊</li><li>Google 地圖僅用於位置顯示與路線輔助；營業資訊仍以主管或營運單位最新公告為優先</li><li>JSON-LD 評分採第三方旅遊平台公開彙整快照（4.2／5，67 則）；屬會變動資料，上線維運時應定期核對。</li></ul></div></div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import Logo from './Logo.astro';
+---
+<header class="sticky top-0 z-50 border-b border-[#0b6871]/10 bg-[#fffdf6]/92 backdrop-blur-xl">
+  <div class="shell flex min-h-18 items-center justify-between gap-5 py-3">
+    <Logo />
+    <nav aria-label="主要導覽" class="hidden items-center gap-5 lg:flex">
+      <a class="nav-link" href="/#story">市場故事</a>
+      <a class="nav-link" href="/#visit">行前資訊</a>
+      <a class="nav-link" href="/#transport">詳細交通</a>
+      <a class="nav-link" href="/#facilities">現場機能</a>
+      <a class="nav-link" href="/#nearby">周邊景點</a>
+      <a class="nav-link" href="/#faq">FAQ</a>
+    </nav>
+    <a href="https://www.google.com/maps/search/?api=1&query=22.468089,120.44332" rel="noreferrer" target="_blank" class="rounded-full bg-[#bb3026] px-4 py-2 text-sm font-extrabold text-white shadow-sm transition hover:-translate-y-0.5">開啟地圖</a>
+  </div>
+</header>

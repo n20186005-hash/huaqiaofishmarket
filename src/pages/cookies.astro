@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = 'Cookie 設定｜東港華僑市場旅遊指南';
+---
+<BaseLayout title={title} description="管理東港華僑市場旅遊指南的 Cookie 與分析偏好。">
+  <article class="shell prose-page py-16 md:py-24"><p class="eyebrow">Cookie 設定</p><h1 class="h2">Cookie 設定</h1><p class="font-bold text-[#092f37]">最後更新：2026年8月</p><p>我們使用必要的第一方儲存來記住您的同意選擇；Google Analytics 分析功能預設關閉，只有在您明確啟用後才會載入。本非營利網站不部署個人化廣告或行銷追蹤 Cookie。</p>
+    <div class="mt-10 space-y-4">
+      <section class="card p-6"><div class="flex items-center justify-between gap-4"><div><h2 class="!mt-0">必要 Cookie</h2><p>用於記住 Cookie 同意狀態與網站基本安全／功能。無法透過本頁停用。</p></div><span class="badge">始終啟用</span></div></section>
+      <section class="card p-6"><div class="flex items-start justify-between gap-4"><div><h2 class="!mt-0">分析型 Cookie</h2><p>Google Analytics（G-HXM22WWPKP）可協助我們理解彙整後的頁面使用情況。未同意時不載入。</p></div><label class="inline-flex shrink-0 items-center gap-2 font-bold"><input id="analytics" type="checkbox" class="h-5 w-5" /> 啟用</label></div></section>
+      <section class="card p-6"><div class="flex items-start justify-between gap-4"><div><h2 class="!mt-0">偏好 Cookie</h2><p>允許保存網站介面類的偏好。現階段主要頁面不依賴此類 Cookie，您可以選擇是否允許日後沿用此偏好。</p></div><label class="inline-flex shrink-0 items-center gap-2 font-bold"><input id="preferences" type="checkbox" class="h-5 w-5" /> 啟用</label></div></section>
+      <section class="card p-6 opacity-80"><div class="flex items-center justify-between gap-4"><div><h2 class="!mt-0">行銷 Cookie</h2><p>本站不使用個人化廣告、再行銷或跨站廣告追蹤。</p></div><span class="badge">不使用</span></div></section>
+    </div>
+    <h2>同意管理</h2><p>您可隨時回到本頁變更設定。停用分析型 Cookie 後，我們會設定 GA 停用旗標，並嘗試移除可由本站網域清除的常見 GA Cookie；已由第三方依法處理或彙整的歷史資料，仍依其政策與適用法律處理。</p>
+    <div class="mt-6 flex flex-wrap gap-3"><button id="save-consent" class="rounded-full bg-[#0b6871] px-5 py-3 font-black text-white">儲存偏好設定</button><button id="reject-consent" class="rounded-full border border-[#092f37]/20 bg-white px-5 py-3 font-black">拒絕所有非必要 Cookie</button></div><p id="consent-status" class="mt-4 text-sm font-bold" role="status" aria-live="polite"></p>
+  </article>
+  <script>
+    const readCookie = () => {
+      const raw = document.cookie.split('; ').find((v) => v.startsWith('huaqiao_consent='));
+      if (!raw) return { analytics: false, preferences: false };
+      try { return JSON.parse(decodeURIComponent(raw.split('=').slice(1).join('='))); } catch { return { analytics: false, preferences: false }; }
+    };
+    const writeCookie = (value) => {
+      const secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = `huaqiao_consent=${encodeURIComponent(JSON.stringify(value))}; Max-Age=15552000; Path=/; SameSite=Lax${secure}`;
+    };
+    const analytics = document.querySelector('#analytics');
+    const preferences = document.querySelector('#preferences');
+    const status = document.querySelector('#consent-status');
+    const current = readCookie();
+    if (analytics instanceof HTMLInputElement) analytics.checked = Boolean(current.analytics);
+    if (preferences instanceof HTMLInputElement) preferences.checked = Boolean(current.preferences);
+    const clearGa = () => ['_ga','_gid','_gat'].forEach((name) => { document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`; });
+    document.querySelector('#save-consent')?.addEventListener('click', () => {
+      const value = { analytics: analytics instanceof HTMLInputElement ? analytics.checked : false, preferences: preferences instanceof HTMLInputElement ? preferences.checked : false };
+      writeCookie(value); (window as any)['ga-disable-G-HXM22WWPKP'] = !value.analytics; if (!value.analytics) clearGa();
+      if (status) status.textContent = '偏好已儲存。分析設定將在重新整理或下一頁生效。';
+    });
+    document.querySelector('#reject-consent')?.addEventListener('click', () => {
+      if (analytics instanceof HTMLInputElement) analytics.checked = false; if (preferences instanceof HTMLInputElement) preferences.checked = false;
+      writeCookie({ analytics: false, preferences: false }); (window as any)['ga-disable-G-HXM22WWPKP'] = true; clearGa();
+      if (status) status.textContent = '已拒絕所有非必要 Cookie。';
+    });
+  </script>
+</BaseLayout>

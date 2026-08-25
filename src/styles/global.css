@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #092f37;
+  --deep: #07313a;
+  --sea: #0b6871;
+  --foam: #eef7f3;
+  --paper: #fffdf6;
+  --red: #bb3026;
+  --gold: #e2ad32;
+  --line: rgba(9, 47, 55, .16);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--paper); }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 15%, rgba(11,104,113,.06), transparent 28rem),
+    linear-gradient(var(--paper), #f7f3e8);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  line-height: 1.72;
+}
+a { color: inherit; }
+::selection { background: #ffd76f; color: #092f37; }
+
+.shell { width: min(1160px, calc(100% - 2rem)); margin-inline: auto; }
+.section { padding: 5.5rem 0; }
+.eyebrow { letter-spacing: .18em; font-size: .76rem; font-weight: 800; text-transform: uppercase; color: var(--red); }
+.h2 { margin: .35rem 0 1.25rem; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.08; letter-spacing: -.035em; font-weight: 900; }
+.lead { font-size: clamp(1.03rem, 1.6vw, 1.24rem); color: #3d5b60; max-width: 52rem; }
+.card { background: rgba(255,255,255,.78); border: 1px solid var(--line); border-radius: 1.25rem; box-shadow: 0 16px 50px rgba(5,48,57,.07); }
+.ticket { border: 1px solid rgba(255,255,255,.26); background: rgba(4,42,50,.78); backdrop-filter: blur(12px); border-radius: 1rem; }
+.market-grid { background-image: linear-gradient(rgba(9,47,55,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(9,47,55,.055) 1px, transparent 1px); background-size: 24px 24px; }
+.badge { display: inline-flex; align-items: center; gap: .45rem; border-radius: 999px; padding: .46rem .72rem; font-size: .8rem; font-weight: 800; background: #eff8f5; border: 1px solid #cfe4dd; }
+.nav-link { font-size: .9rem; font-weight: 750; color: #31565b; }
+.nav-link:hover { color: var(--red); }
+.prose-page h2 { margin-top: 2.5rem; font-weight: 900; font-size: 1.45rem; }
+.prose-page h3 { margin-top: 1.75rem; font-weight: 850; font-size: 1.1rem; }
+.prose-page p, .prose-page li { color: #405c61; }
+.prose-page ul { padding-left: 1.25rem; list-style: disc; }
+.photo-credit { font-size: .72rem; background: rgba(0,0,0,.62); color: white; padding: .3rem .5rem; border-radius: .4rem; }
+
+@media (max-width: 760px) {
+  .section { padding: 4rem 0; }
+}

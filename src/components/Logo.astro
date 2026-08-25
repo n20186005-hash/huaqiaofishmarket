@@ -1,0 +1,13 @@
+---
+const { compact = false } = Astro.props;
+---
+<a href="/" class="inline-flex items-center gap-3" aria-label="東港華僑市場旅遊指南首頁">
+  <svg class={compact ? 'h-9 w-9' : 'h-11 w-11'} viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" fill="#fff8df" stroke="#07313a" stroke-width="3"/>
+    <path d="M12 34c8-9 20-12 31-7l8-6-1 10 1 10-8-6c-11 5-23 2-31-7 5 1 8 3 10 6-2 1-5 3-10 0Z" fill="#0b6871"/>
+    <circle cx="37" cy="28" r="1.8" fill="#fff"/>
+    <path d="M14 44c9-5 24-5 36 0" fill="none" stroke="#e2ad32" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="48" cy="15" r="7" fill="#bb3026"/>
+  </svg>
+  {!compact && <span class="leading-tight"><strong class="block text-[15px] tracking-[.06em]">東港華僑市場</strong><small class="block text-[11px] font-bold tracking-[.16em] text-[#5a7275]">非營利旅遊指南</small></span>}
+</a>
