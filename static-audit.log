@@ -1,0 +1,28 @@
+東港華僑市場網站｜靜態驗證紀錄
+
+1. Astro frontmatter TypeScript syntax
+PASS
+
+2. Source audit
+靜態稽核通過：無占位/非法協定、SITE 單一設定點、無 workspace。
+語言稽核通過：主要頁面未發現設定的簡體中文詞彙。
+
+3. Banned strings in deployable source/config
+PASS
+
+4. Google Maps locale
+PASS: no zh-CN
+68:const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6567.399795228191!2d120.44074507712622!3d22.468088979566218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3471e18f8d367ea7%3A0x36c27f3352f7c7a4!2sHuaqiao%20Fish%20Market!5e1!3m2!1szh-TW!2stw!4v1787622030309!5m2!1szh-TW!2stw';
+
+5. Workspace
+PASS: no pnpm-workspace.yaml
+
+6. package.json / pnpm-lock.yaml importer
+PASS
+packageManager: pnpm@11.23.0
+engines: {'node': '24.19.0', 'pnpm': '11.23.0'}
+
+7. SITE single config point
+6:const SITE = '';
+9:  site: SITE || undefined,
+11:  integrations: SITE ? [sitemap()] : [],
