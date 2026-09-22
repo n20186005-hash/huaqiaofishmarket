@@ -16,7 +16,19 @@
 
 ## 網域唯一設定點
 
-只需修改 `astro.config.mjs` 內的 `SITE`。未設定正式網域時保留空字串即可正常建置；此時 canonical、絕對 Open Graph URL、絕對 JSON-LD URL 與 sitemap 會省略，不會使用占位網域。設定正式 HTTPS 網域後，`@astrojs/sitemap` 才會啟用。
+只需修改 `astro.config.mjs` 內的 `SITE`（目前已設為 `https://huaqiaofishmarket.com`，可用 `SITE_URL` 環境變數覆寫）。未設定正式網域時保留空字串即可正常建置；此時 canonical、絕對 Open Graph URL、絕對 JSON-LD URL 與 sitemap 會省略，不會使用占位網域。設定正式 HTTPS 網域後，`@astrojs/sitemap` 才會啟用。
+
+## 單一景點實體綁定（Entity Binding）
+
+所有景點事實（官方全稱、俗稱、城市、縣、國家、郵遞區號、經緯度、Plus Code、電話、Google 地圖分享／嵌入連結、官方觀光連結、評分快照）集中定義在 `src/data/site.ts`：
+
+- `SITE_NAME` 為「景點名稱＋城市＋旅遊指南」格式的 SEO 站名；子頁標題經 `withSiteName()` 自動附加後綴。
+- 首頁 JSON-LD 輸出 `WebSite`、`TouristAttraction`（含 `@id`、`image`、`hasMap`、`sameAs`、`isAccessibleForFree`、`aggregateRating`）、`BreadcrumbList` 與 `FAQPage`。
+- `public/robots.txt` 指向 `https://huaqiaofishmarket.com/sitemap-index.xml`；`public/_headers` 下發 HSTS 與安全標頭。HTTP→HTTPS 301 由 Cloudflare 控制台「Always Use HTTPS」處理。
+
+## PWA
+
+`public/site.webmanifest` + `public/sw.js`（頁面 network-first、靜態資產 cache-first），註冊腳本位於 `src/layouts/BaseLayout.astro`。圖示由 `python scripts/gen-pwa-icons.py`（需要 Pillow）依 `public/logo.svg` 設計產生 `public/icons/icon-192.png`、`icon-512.png`、`icon-512-maskable.png`。
 
 ## 開發與檢查
 

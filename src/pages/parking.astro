@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  SITE_NAME, SITE_URL, withSiteName, ATTRACTION_FULL_NAME, ATTRACTION_SHORT_NAME,
+  STATE_PROVINCE, CITY_NAME, TELEPHONE, TELEPHONE_DISPLAY, MAPS_SHARE_URL,
+  GOVT_TOURISM_URL, GOVT_SCENIC_URL
+} from '../data/site';
+
+const pageTitle = withSiteName('停車場｜自駕路線、周邊停車、公車到站');
+const pageDescription = `東港華僑市場（${ATTRACTION_FULL_NAME}）周邊停車與交通指引：漁港周邊停車空間、自臺88與國道自驾路線、公車到站方式，以及連假與渡船尖峰的壅塞提醒。本頁整理停車、交通與實用建議。`;
+
+const faqs = [
+  ['華僑市場有停車場嗎？', `漁港周邊有停車空間，官方資料列有鄰近停車場。車位、費率與出入口會隨現場與活動調整，請以現場標示與最新公告為準。`],
+  ['自駕怎麼去華僑市場？', `由高雄方向可銜接台 88 快速道路與國道／省道系統進入東港，最後一段依即時導航前往朝隆路與漁港周邊停車區，避免在市場出入口臨停。`],
+  ['搭大眾運輸怎麼到？', `可善用台灣好行 9127D／9127G、公路客運與台鐵轉乘公車等方式；官方資料列出的「東港漁港漁產品直銷中心」公車站距離很近，「東琉線碼頭站」也在步行範圍。`],
+  ['連假停車會很難嗎？', `週末、連假與渡船尖峰容易壅塞，車位與等候時間通常拉長。建議避開主要用餐與渡船時段，或搭配大眾運輸減少停車壓力。`]
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL + '/' },
+    { '@type': 'ListItem', position: 2, name: '停車交通', item: SITE_URL + '/parking/' }
+  ]
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+};
+---
+<BaseLayout title={pageTitle} description={pageDescription} jsonLd={[breadcrumbSchema, faqSchema]}>
+  <section class="relative overflow-hidden bg-[#062e36] text-white">
+    <div class="shell grid gap-8 py-16 lg:grid-cols-[1.25fr_.75fr] lg:py-20">
+      <div>
+        <nav aria-label="麵包屑" class="mb-5 flex flex-wrap items-center gap-2 text-xs font-bold text-[#a9c7c3]">
+          <a href={SITE_URL + '/'} class="hover:text-white">{SITE_NAME}</a><span aria-hidden="true">›</span>
+          <span aria-current="page" class="text-[#ffd773]">停車交通</span>
+        </nav>
+        <p class="eyebrow !text-[#ffd773]">交通與停車</p>
+        <h1 class="mt-2 text-[clamp(1.8rem,4.5vw,3.4rem)] font-black leading-[1.05] tracking-[-.03em]">東港華僑市場停車與交通</h1>
+        <p class="mt-5 max-w-2xl text-[#d7e9e6]">漁港周邊有停車空間，但週末、連假與渡船尖峰容易壅塞。本頁整理周邊停車、自駕與大眾運輸路線，以及減少停車壓力的實用建議。</p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer" class="rounded-full bg-[#0b6871] px-5 py-3 text-sm font-black text-white">Google 地圖分享連結</a>
+          <a href={`tel:${TELEPHONE}`} class="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-black">電話 {TELEPHONE_DISPLAY}</a>
+        </div>
+      </div>
+      <div class="ticket p-6">
+        <p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">位置速覽</p>
+        <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
+          <div><dt class="text-[#9fc5c1]">地址</dt><dd class="mt-1 font-extrabold">{STATE_PROVINCE}{CITY_NAME}朝隆路 39 號</dd></div>
+          <div><dt class="text-[#9fc5c1]">電話</dt><dd class="mt-1 font-extrabold"><a href={`tel:${TELEPHONE}`} class="hover:text-[#ffd773]">{TELEPHONE_DISPLAY}</a></dd></div>
+          <div><dt class="text-[#9fc5c1]">鄰近地標</dt><dd class="mt-1 font-extrabold">東琉線碼頭</dd></div>
+          <div><dt class="text-[#9fc5c1]">停車</dt><dd class="mt-1 font-extrabold">周邊停車空間</dd></div>
+        </dl>
+        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">車位、費率與出入口以現場標示與最新公告為準。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="h2">周邊停車與自駕</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        <article class="card p-7"><h3 class="text-xl font-black">🅿️ 周邊停車空間</h3><p class="mt-3 text-sm text-[#456267]">漁港周邊有停車空間，官方資料列有鄰近停車場。連假與渡船尖峰容易壅塞，車位、費率與出入口以現場為準。</p></article>
+        <article class="card p-7"><h3 class="text-xl font-black">🚗 自駕路線</h3><p class="mt-3 text-sm text-[#456267]">由高雄方向可銜接台 88 快速道路與國道／省道系統進入東港。最後一段依即時導航前往朝隆路與漁港周邊停車區，避免在市場出入口臨停。</p></article>
+      </div>
+      <div class="mt-8 rounded-[1.5rem] border border-[#e2ad32]/40 bg-[#fff9df] p-6">
+        <h3 class="text-lg font-black text-[#5c4a12]">電動車充電與加油</h3>
+        <p class="mt-3 text-sm text-[#5c4a12]">漁港與東港市區周邊有加油服務。電動車充電點變動較快，出發前請以車廠、停車場或公用充電即時地圖確認可用性與規格。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#072f38] text-white">
+    <div class="shell">
+      <p class="eyebrow !text-[#ffd773]">大眾運輸</p>
+      <h2 class="h2">搭車怎麼到華僑市場</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚌 台灣好行</h3><p class="mt-3 text-sm text-[#bad2cf]">大鵬灣官方交通資訊列有台灣好行 9127D、9127G 等往東港方向路線，可留意「東琉線碼頭」等鄰近站點。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">🚆 台鐵轉乘</h3><p class="mt-3 text-sm text-[#bad2cf]">由屏東轉運站可搭 8202 往東港，再銜接 9127D；上車前確認當日班次與停靠。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">✈️ 機場／高鐵</h3><p class="mt-3 text-sm text-[#bad2cf]">高雄國際機場、高鐵左營站可轉乘公路客運或合法叫車前往東港，再依停靠站步行或轉乘。</p></article>
+      </div>
+      <p class="mt-6 text-sm text-[#bad2cf]">需要最新公告與區域旅遊資訊，請參考：<a class="font-bold text-white underline decoration-white/40 underline-offset-4" href={GOVT_TOURISM_URL} target="_blank" rel="noopener noreferrer">交通部觀光署景點資料</a>／<a class="font-bold text-white underline decoration-white/40 underline-offset-4" href={GOVT_SCENIC_URL} target="_blank" rel="noopener noreferrer">大鵬灣國家風景區管理處</a>。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <p class="eyebrow">相關專題</p>
+      <h2 class="h2">其他東港華僑市場攻略</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        <a href="/hours/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🕐</div><h3 class="mt-4 text-xl font-black">營業時間專頁</h3><p class="mt-2 text-sm text-[#456267]">11:00–20:00、每月第一個星期二清潔公休，以及不同官方頁面的時間差異說明。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看營業時間 →</span></a>
+        <a href="/food/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🐟</div><h3 class="mt-4 text-xl font-black">美食推薦專頁</h3><p class="mt-2 text-sm text-[#456267]">黑鮪魚生魚片、旗魚黑輪、現流海鮮代客料理與選購注意。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看美食 →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#edf5f2]" id="faq">
+    <div class="shell">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="h2">關於停車與交通的常見問答</h2>
+      <div class="mt-7 grid gap-4">{faqs.map(([q, a]) => <details class="card group p-6"><summary class="cursor-pointer list-none pr-8 text-lg font-black">{q}</summary><p class="mt-4 border-t border-[#0b6871]/10 pt-4 text-[#526d72]">{a}</p></details>)}</div>
+    </div>
+  </section>
+</BaseLayout>

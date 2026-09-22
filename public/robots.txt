@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://huaqiaofishmarket.com/sitemap-index.xml

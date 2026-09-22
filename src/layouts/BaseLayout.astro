@@ -2,21 +2,23 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { SITE_NAME, SITE_SHORT_NAME, SITE_URL, TELEPHONE, MAPS_SHARE_URL } from '../data/site';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
 }
-const { title, description, image = '/icons/apple-touch-icon.png', jsonLd, noindex = false } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const { title, description, image = '/icons/apple-touch-icon.png', imageAlt = SITE_NAME, jsonLd, noindex = false } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : SITE_URL + Astro.url.pathname;
 const absoluteImage = image.startsWith('http://') || image.startsWith('https://')
   ? image
   : Astro.site
     ? new URL(image, Astro.site).toString()
-    : undefined;
+    : SITE_URL + image;
 const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 <!doctype html>
@@ -28,18 +30,32 @@ const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex,follow" />}
     <title>{title}</title>
-    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_TW" />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    {canonical && <meta property="og:url" content={canonical} />}
-    {absoluteImage && <meta property="og:image" content={absoluteImage} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={absoluteImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-    {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content={SITE_SHORT_NAME} />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+    {schemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
     <script is:inline>
       (() => {
         const id = 'G-HXM22WWPKP';
@@ -61,10 +77,22 @@ const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         document.head.appendChild(s);
       })();
     </script>
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+      }
+    </script>
   </head>
-  <body>
+  <body class="pb-16 lg:pb-0">
     <Header />
     <main><slot /></main>
+    <div class="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#062d35]/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
+      <div class="grid grid-cols-3">
+        <a href={`tel:${TELEPHONE}`} class="flex flex-col items-center justify-center gap-1 py-3 text-xs font-bold text-white"><span class="text-lg leading-none">📞</span>電話</a>
+        <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center gap-1 py-3 text-xs font-bold text-white border-x border-white/10"><span class="text-lg leading-none">🧭</span>導航</a>
+        <a href="/hours/" class="flex flex-col items-center justify-center gap-1 py-3 text-xs font-bold text-white"><span class="text-lg leading-none">🕐</span>營業時間</a>
+      </div>
+    </div>
     <Footer />
   </body>
 </html>

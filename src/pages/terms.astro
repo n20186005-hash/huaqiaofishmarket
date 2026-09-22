@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const title = '服務條款｜東港華僑市場旅遊指南';
+import { withSiteName } from '../data/site';
+const title = withSiteName('服務條款');
 ---
 <BaseLayout title={title} description="東港華僑市場旅遊指南服務條款。">
   <article class="shell prose-page py-16 md:py-24"><p class="eyebrow">服務條款</p><h1 class="h2">服務條款</h1><p class="font-bold text-[#092f37]">最後更新：2026年8月</p><p>存取或使用本網站，即表示您了解並同意下列條款。本網站為獨立的非營利旅遊資訊指南，與東港漁港漁產品直銷中心、政府機關、景區管理單位、商戶或任何商業營運者均無隸屬、代理或背書關係。</p>

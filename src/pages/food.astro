@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  SITE_NAME, SITE_URL, withSiteName, ATTRACTION_FULL_NAME, ATTRACTION_SHORT_NAME,
+  STATE_PROVINCE, CITY_NAME, TELEPHONE, TELEPHONE_DISPLAY, MAPS_SHARE_URL, RATING_VALUE, RATING_COUNT
+} from '../data/site';
+
+const pageTitle = withSiteName('美食｜黑鮪魚生魚片、旗魚黑輪、現流海鮮代客料理');
+const pageDescription = `東港華僑市場（${ATTRACTION_FULL_NAME}）美食指南：黑鮪魚生魚片、油旗魚黑輪、現流海鮮代客料理、櫻花蝦與乾貨伴手。本頁只推薦類型、不替店家排名，並整理選購與價格確認方式。`;
+
+const faqs = [
+  ['華僑市場必吃什麼？', '市場以新鮮漁獲與現流海鮮為核心：黑鮪魚生魚片、油旗魚黑輪（旗魚黑輪）、各式生魚片與熟食小炒都很常見；也能把選購的漁貨交由攤位代客料理。實際品項、價格與季節限定會隨漁況與攤位而異，建議現場看新鮮度與標價再決定。'],
+  ['代客料理怎麼算錢？', '若選購海鮮後請攤位代客料理，先確認料理方式、加工費與等候時間；不同攤位計價方式不同，購買前務必問清重量、單價與料理費。'],
+  ['黑鮪魚季是什麼時候？', '東港黑鮪魚文化觀光季通常在春季前後，是地方重要的漁業與觀光活動；實際年度日期與是否辦理以主管或觀光單位公告為準。'],
+  ['價格怎麼看才不會吃虧？', '海鮮價格受季節、尺寸、漁況影響，不以網路舊價推定當日價格；購買前確認重量、單價、計價單位與料理費，是最實用的消費習慣。']
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL + '/' },
+    { '@type': 'ListItem', position: 2, name: '美食推薦', item: SITE_URL + '/food/' }
+  ]
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+};
+---
+<BaseLayout title={pageTitle} description={pageDescription} jsonLd={[breadcrumbSchema, faqSchema]}>
+  <section class="relative overflow-hidden bg-[#062e36] text-white">
+    <div class="shell grid gap-8 py-16 lg:grid-cols-[1.25fr_.75fr] lg:py-20">
+      <div>
+        <nav aria-label="麵包屑" class="mb-5 flex flex-wrap items-center gap-2 text-xs font-bold text-[#a9c7c3]">
+          <a href={SITE_URL + '/'} class="hover:text-white">{SITE_NAME}</a><span aria-hidden="true">›</span>
+          <span aria-current="page" class="text-[#ffd773]">美食推薦</span>
+        </nav>
+        <p class="eyebrow !text-[#ffd773]">在地飲食</p>
+        <h1 class="mt-2 text-[clamp(1.8rem,4.5vw,3.4rem)] font-black leading-[1.05] tracking-[-.03em]">東港華僑市場美食指南</h1>
+        <p class="mt-5 max-w-2xl text-[#d7e9e6]">本站不接受商業置入，也不推薦特定商戶。來東港可以從地方漁業與飲食文化的「類型」理解風味，再依衛生、標價、飲食需求與當天漁獲自行選擇。Google 評分 {RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）。</p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer" class="rounded-full bg-[#0b6871] px-5 py-3 text-sm font-black text-white">Google 地圖分享連結</a>
+          <a href={`tel:${TELEPHONE}`} class="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-black">電話 {TELEPHONE_DISPLAY}</a>
+        </div>
+      </div>
+      <div class="ticket p-6">
+        <p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">選購原則</p>
+        <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
+          <div><dt class="text-[#9fc5c1]">看新鮮度</dt><dd class="mt-1 font-extrabold">來源與保冷</dd></div>
+          <div><dt class="text-[#9fc5c1]">問清楚</dt><dd class="mt-1 font-extrabold">重量／單價</dd></div>
+          <div><dt class="text-[#9fc5c1]">代客料理</dt><dd class="mt-1 font-extrabold">確認加工費</dd></div>
+          <div><dt class="text-[#9fc5c1]">地址</dt><dd class="mt-1 font-extrabold">{STATE_PROVINCE}{CITY_NAME}朝隆路 39 號</dd></div>
+        </dl>
+        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">本站只推薦類型、不替店家排名，購買前以現場標價為準。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2 class="h2">周邊美食：推薦「類型」，不替店家排名</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <article class="card p-6"><h3 class="text-xl font-black">🐟 黑鮪魚與生魚片</h3><p class="mt-3 text-sm text-[#456267]">重點是來源、保冷與鮮度管理；生食請依自身需求與衛生條件評估。</p></article>
+        <article class="card p-6"><h3 class="text-xl font-black">🍢 旗魚加工小吃</h3><p class="mt-3 text-sm text-[#456267]">可從魚漿、油旗魚黑輪（旗魚黑輪）等在地形式認識漁產加工。</p></article>
+        <article class="card p-6"><h3 class="text-xl font-black">🍲 現流海鮮代客料理</h3><p class="mt-3 text-sm text-[#456267]">選購海鮮後交攤位代客料理；先問重量、料理費與等候時間。</p></article>
+        <article class="card p-6"><h3 class="text-xl font-black">🦐 櫻花蝦與乾貨</h3><p class="mt-3 text-sm text-[#456267]">櫻花蝦、乾貨與伴手漁產是常見選擇；長途攜帶要留意保存方式。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#072f38] text-white">
+    <div class="shell">
+      <p class="eyebrow !text-[#ffd773]">消費提醒</p>
+      <h2 class="h2">選購與價格確認</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        <article class="ticket p-6"><h3 class="text-xl font-black">先問後買</h3><p class="mt-3 text-sm text-[#bad2cf]">購買前確認重量、單價、計價單位與料理費；不同攤位計價方式不同。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">顧保冷</h3><p class="mt-3 text-sm text-[#bad2cf]">南部氣候溫暖，生鮮離開冷鏈後風險上升；長途攜帶宜自備保冷袋並縮短常溫時間。</p></article>
+        <article class="ticket p-6"><h3 class="text-xl font-black">以當日為準</h3><p class="mt-3 text-sm text-[#bad2cf]">海鮮價格受季節、尺寸、漁況影響，不以網路舊價推定當日價格。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <p class="eyebrow">相關專題</p>
+      <h2 class="h2">其他東港華僑市場攻略</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        <a href="/hours/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🕐</div><h3 class="mt-4 text-xl font-black">營業時間專頁</h3><p class="mt-2 text-sm text-[#456267]">11:00–20:00、每月第一個星期二清潔公休，以及不同官方頁面的時間差異說明。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看營業時間 →</span></a>
+        <a href="/parking/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🅿️</div><h3 class="mt-4 text-xl font-black">停車交通專頁</h3><p class="mt-2 text-sm text-[#456267]">周邊停車、自臺88與國道自驾、公車到站，以及連假壅塞提醒。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看停車交通 →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-[#edf5f2]" id="faq">
+    <div class="shell">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="h2">關於美食的常見問答</h2>
+      <div class="mt-7 grid gap-4">{faqs.map(([q, a]) => <details class="card group p-6"><summary class="cursor-pointer list-none pr-8 text-lg font-black">{q}</summary><p class="mt-4 border-t border-[#0b6871]/10 pt-4 text-[#526d72]">{a}</p></details>)}</div>
+    </div>
+  </section>
+</BaseLayout>

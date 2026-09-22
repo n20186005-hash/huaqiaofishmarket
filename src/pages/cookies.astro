@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const title = 'Cookie 設定｜東港華僑市場旅遊指南';
+import { withSiteName } from '../data/site';
+const title = withSiteName('Cookie 設定');
 ---
 <BaseLayout title={title} description="管理東港華僑市場旅遊指南的 Cookie 與分析偏好。">
   <article class="shell prose-page py-16 md:py-24"><p class="eyebrow">Cookie 設定</p><h1 class="h2">Cookie 設定</h1><p class="font-bold text-[#092f37]">最後更新：2026年8月</p><p>我們使用必要的第一方儲存來記住您的同意選擇；Google Analytics 分析功能預設關閉，只有在您明確啟用後才會載入。本非營利網站不部署個人化廣告或行銷追蹤 Cookie。</p>
@@ -19,7 +20,7 @@ const title = 'Cookie 設定｜東港華僑市場旅遊指南';
       if (!raw) return { analytics: false, preferences: false };
       try { return JSON.parse(decodeURIComponent(raw.split('=').slice(1).join('='))); } catch { return { analytics: false, preferences: false }; }
     };
-    const writeCookie = (value) => {
+    const writeCookie = (value: { analytics: boolean; preferences: boolean }) => {
       const secure = location.protocol === 'https:' ? '; Secure' : '';
       document.cookie = `huaqiao_consent=${encodeURIComponent(JSON.stringify(value))}; Max-Age=15552000; Path=/; SameSite=Lax${secure}`;
     };

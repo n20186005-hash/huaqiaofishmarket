@@ -1,0 +1,254 @@
+---
+import {
+  getWeather,
+  weatherAdvice,
+  wmoText,
+  wmoIcon,
+  weekdayLabel,
+  monthDayLabel,
+  timeLabel,
+  fmt,
+  windLabel,
+  beaufortLevel,
+  dailyItemsHtml,
+  tideModel
+} from '../lib/weather';
+import { LATITUDE, LONGITUDE, CITY_NAME, ATTRACTION_SHORT_NAME } from '../data/site';
+
+const snapshot = await getWeather(LATITUDE, LONGITUDE);
+const current = snapshot?.current ?? null;
+const daily = snapshot?.daily ?? [];
+const today = daily[0];
+const marine = snapshot?.marine ?? null;
+const advice = weatherAdvice(current, today, marine);
+const hasData = Boolean(current || daily.length > 0);
+const observedAt = current?.time ? timeLabel(current.time) : snapshot?.fetchedAt ? timeLabel(snapshot.fetchedAt) : '';
+const waveNow = marine?.waveHeight ?? null;
+const seaNow = marine?.seaTemp ?? null;
+const windLv = beaufortLevel(current?.windSpeed);
+const tide = tideModel(new Date());
+---
+
+<section class="section bg-[#eef6f4]" id="weather" data-lat={LATITUDE} data-lon={LONGITUDE}>
+  <div class="shell">
+    <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div>
+        <p class="eyebrow">天氣與穿著</p>
+        <h2 class="h2">{CITY_NAME}即時天氣與一週預報</h2>
+      </div>
+      <p class="max-w-lg text-sm text-[#557075]">
+        東港臨海、屬黃昏型魚市，市場與港區多半是室內外混合動線。出發前看一眼體感溫度、降雨機率、紫外線與海況，就能決定要不要帶傘、防曬與下水。
+      </p>
+    </div>
+
+    {
+      hasData ? (
+        <>
+          {/* 風險提醒：有才顯示，置頂紅色；無則綠色安心條 */}
+          <div id="wx-alerts" class="mt-9">
+            {advice.hasAlert ? (
+              <div class="rounded-2xl border border-[#bb3026]/30 bg-[#fff4f2] p-5">
+                <p class="flex items-center gap-2 text-sm font-black text-[#bb3026]">
+                  <span>⚠️</span><span>氣象風險提醒</span>
+                </p>
+                <ul id="wx-alert-list" class="mt-3 space-y-2 text-sm font-bold text-[#9c2a1d]">
+                  {advice.alerts.map((a) => (
+                    <li class="flex gap-2"><span>・</span><span>{a}</span></li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div class="rounded-2xl border border-[#0b6871]/20 bg-[#f1faf7] p-4 text-sm font-bold text-[#0b6871]">
+                ✅ 今日無氣象預警（實際行程仍以中央氣象署最新特報為準）
+              </div>
+            )}
+          </div>
+
+          <div class="mt-5 grid gap-5 lg:grid-cols-[.95fr_1.05fr]">
+            {/* 基礎天氣卡片 */}
+            <div class="card p-7 md:p-8">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="eyebrow">現在</p>
+                  <p class="mt-1 text-sm font-bold text-[#6d8589]">
+                    {CITY_NAME}觀測｜<span data-wx="stamp">{observedAt ? `${observedAt} 更新` : '最近一次觀測'}</span>
+                  </p>
+                  <p data-wx="summary" class="mt-3 text-lg font-black text-[#092f37]">{advice.summary}</p>
+                </div>
+                <span id="wx-current-icon" class="text-5xl leading-none">{wmoIcon(current?.code)}</span>
+              </div>
+              <dl class="mt-6 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
+                <div><dt class="text-[#7c9296]">氣溫</dt><dd data-wx="temp" class="font-extrabold">{fmt(current?.temperature, '°')}</dd></div>
+                <div><dt class="text-[#7c9296]">體感</dt><dd data-wx="feels" class="font-extrabold">{fmt(current?.apparentTemperature, '°')}</dd></div>
+                <div><dt class="text-[#7c9296]">風</dt><dd data-wx="wind" class="font-extrabold">{fmt(current?.windSpeed, ' km/h')}・{windLabel(current?.windSpeed)}（{windLv ?? '—'} 級）</dd></div>
+                <div><dt class="text-[#7c9296]">濕度</dt><dd data-wx="humidity" class="font-extrabold">{fmt(current?.humidity, '%')}</dd></div>
+                <div><dt class="text-[#7c9296]">今日高溫</dt><dd data-wx="tmax" class="font-extrabold">{fmt(today?.tempMax, '°')}</dd></div>
+                <div><dt class="text-[#7c9296]">今日降雨機率</dt><dd data-wx="pop" class="font-extrabold">{today?.precipitationProbability === null || today?.precipitationProbability === undefined ? '—' : `${Math.round(today.precipitationProbability)}%`}</dd></div>
+              </dl>
+            </div>
+
+            {/* 海邊視角卡 */}
+            <div class="card p-7 md:p-8">
+              <p class="eyebrow">海邊漁港視角</p>
+              <h3 class="mt-2 text-2xl font-black">下海、趕海前先看海況</h3>
+              <dl class="mt-5 grid grid-cols-2 gap-4 text-sm">
+                <div class="rounded-xl bg-[#f4faf8] p-4"><dt class="text-[#7c9296]">即時浪高</dt><dd data-wx="wave" class="text-2xl font-black text-[#0b6871]">{waveNow === null ? '—' : `${waveNow.toFixed(1)} m`}</dd></div>
+                <div class="rounded-xl bg-[#f4faf8] p-4"><dt class="text-[#7c9296]">海溫</dt><dd data-wx="sea" class="text-2xl font-black text-[#0b6871]">{seaNow === null ? '—' : `${Math.round(seaNow)}°`}</dd></div>
+              </dl>
+              <p class="mt-4 text-sm text-[#456267]">
+                浪高超過 1.5 m 或有雷雨、強風時，不建議下水、踩礁石或前往潮間帶；平穩時可海邊散步，趕海請先查當地潮汐表並留意礁石濕滑。
+              </p>
+            </div>
+          </div>
+
+          {/* 潮汐板塊（天文潮預估） */}
+          <div id="wx-tide" class="card p-7 md:p-8">
+            <p class="eyebrow">潮汐（天文潮預估）</p>
+            <h3 class="mt-2 text-2xl font-black">趕海、下海先看潮</h3>
+            <dl class="mt-5 grid grid-cols-2 gap-4 text-sm">
+              <div class="rounded-xl bg-[#f4faf8] p-4"><dt class="text-[#7c9296]">潮型</dt><dd class="text-lg font-black text-[#0b6871]">{tide.type}</dd></div>
+              <div class="rounded-xl bg-[#f4faf8] p-4"><dt class="text-[#7c9296]">今日</dt><dd data-wx="tide-spring" class="text-lg font-black text-[#0b6871]">{tide.springNeap}</dd></div>
+              <div class="rounded-xl bg-[#f4faf8] p-4 col-span-2"><dt class="text-[#7c9296]">今日高潮（預估）</dt><dd class="text-lg font-black text-[#0b6871]"><span data-wx="tide-high">{tide.highTides[0]} / {tide.highTides[1]}</span></dd></div>
+            </dl>
+            <p data-wx="tide-hint" class="mt-4 text-sm text-[#456267]">{tide.harvestHint}</p>
+            <p class="mt-3 text-xs text-[#7c9296]">⚠️ 本計算為天文潮預估，未含地形與氣象修正；精確潮時潮高請查中央氣象署或當地港口潮汐表。</p>
+            <a class="mt-4 inline-block rounded-full bg-[#0b6871] px-5 py-3 text-sm font-black text-white" href="https://www.cwa.gov.tw/V8/C/Tide/Tide.html" target="_blank" rel="noopener noreferrer">查詢中央氣象署潮汐預報</a>
+          </div>
+
+          {/* 三塊標籤：出行穿搭 / 遊玩安排 / 隨身物品 */}
+          <div class="mt-5 grid gap-5 md:grid-cols-3">
+            <div class="card p-6">
+              <p class="flex items-center gap-2 text-sm font-black text-[#0b6871]"><span>🧥</span><span>出行穿搭</span></p>
+              <ul id="wx-outfit" class="mt-4 space-y-2 text-sm text-[#456267]">
+                {advice.outfit.length ? advice.outfit.map((t) => (
+                  <li class="flex gap-2"><span class="text-[#0b6871]">✓</span><span>{t}</span></li>
+                )) : <li class="text-[#7c9296]">今日無特別穿搭提醒</li>}
+              </ul>
+            </div>
+            <div class="card p-6">
+              <p class="flex items-center gap-2 text-sm font-black text-[#0b6871]"><span>🗺️</span><span>遊玩安排</span></p>
+              <ul id="wx-activity" class="mt-4 space-y-2 text-sm text-[#456267]">
+                {advice.activity.length ? advice.activity.map((t) => (
+                  <li class="flex gap-2"><span class="text-[#0b6871]">✓</span><span>{t}</span></li>
+                )) : <li class="text-[#7c9296]">今日無特別行程提醒</li>}
+              </ul>
+            </div>
+            <div class="card p-6">
+              <p class="flex items-center gap-2 text-sm font-black text-[#0b6871]"><span>🎒</span><span>隨身物品</span></p>
+              <ul id="wx-packing" class="mt-4 space-y-2 text-sm text-[#456267]">
+                {advice.packing.length ? advice.packing.map((t) => (
+                  <li class="flex gap-2"><span class="text-[#0b6871]">✓</span><span>{t}</span></li>
+                )) : <li class="text-[#7c9296]">今日無特別物品提醒</li>}
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-xl border border-[#0b6871]/15 bg-[#f4faf8] p-4 text-sm text-[#456267]">
+            海邊天氣變化快，午後雷陣雨與東北季風期間的陣風都很常見；若計畫上午逛市場、下午去大鵬灣或搭船，建議再看一次當日最新預報。
+          </div>
+        </>
+      ) : (
+        <div class="mt-9 card p-7 md:p-8">
+          <p class="eyebrow">出門建議</p>
+          <h3 class="mt-2 text-2xl font-black">天氣資訊暫時無法顯示</h3>
+          <p class="mt-4 text-[#456267]">
+            本區天氣資料暫時抓取失敗，頁面不會填入推測數字。出發前請參考交通部中央氣象署的東港地區最新預報與特報。
+          </p>
+          <a class="mt-5 inline-block rounded-full bg-[#0b6871] px-5 py-3 text-sm font-black text-white" href="https://www.cwa.gov.tw/" target="_blank" rel="noopener noreferrer">查看官方氣象預報</a>
+        </div>
+      )
+    }
+
+    <div class="mt-6 card overflow-hidden p-6 md:p-7">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h3 class="text-xl font-black">未來一週預報</h3>
+        <p class="text-xs font-bold text-[#7c9296]">溫度為日最高／最低，降雨機率取當日最大值，浪高為當日最大</p>
+      </div>
+      <ul id="wx-daily" class="mt-5 flex snap-x gap-3 overflow-x-auto pb-2" set:html={dailyItemsHtml(daily)} />
+      <p class="mt-4 text-xs text-[#7c9296]">
+        預報資料會隨時間更新；遇到颱風、豪雨或強風特報時，請以官方警特報與船班、市場現場公告為準。
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { fetchWeather, weatherAdvice, wmoText, wmoIcon, timeLabel, fmt, windLabel, beaufortLevel, dailyItemsHtml, tideModel } from '../lib/weather';
+
+  const section = document.querySelector<HTMLElement>('#weather');
+  if (section) {
+    const lat = Number(section.dataset.lat);
+    const lon = Number(section.dataset.lon);
+    const setText = (name: string, value: string) => {
+      const node = section.querySelector<HTMLElement>(`[data-wx="${name}"]`);
+      if (node) node.textContent = value;
+    };
+    const setHtml = (id: string, html: string) => {
+      const node = section.querySelector<HTMLElement>(`#${id}`);
+      if (node) node.innerHTML = html;
+    };
+    const listHtml = (items: string[], empty: string) =>
+      items.length
+        ? items.map((t) => `<li class="flex gap-2"><span class="text-[#0b6871]">✓</span><span>${t}</span></li>`).join('')
+        : `<li class="text-[#7c9296]">${empty}</li>`;
+
+    const paint = (snapshot: Awaited<ReturnType<typeof fetchWeather>>) => {
+      const current = snapshot.current;
+      const today = snapshot.daily[0];
+      const marine = snapshot.marine;
+      const advice = weatherAdvice(current, today, marine);
+      const windLv = beaufortLevel(current?.windSpeed);
+
+      const icon = section.querySelector<HTMLElement>('#wx-current-icon');
+      if (icon) icon.textContent = wmoIcon(current?.code);
+      setText('summary', advice.summary);
+      setText('temp', fmt(current?.temperature, '°'));
+      setText('feels', fmt(current?.apparentTemperature, '°'));
+      setText('humidity', fmt(current?.humidity, '%'));
+      setText('wind', `${fmt(current?.windSpeed, ' km/h')}・${windLabel(current?.windSpeed)}（${windLv ?? '—'} 級）`);
+      setText('tmax', fmt(today?.tempMax, '°'));
+      setText(
+        'pop',
+        today?.precipitationProbability === null || today?.precipitationProbability === undefined
+          ? '—'
+          : `${Math.round(today.precipitationProbability)}%`
+      );
+      setText('wave', marine?.waveHeight === null || marine?.waveHeight === undefined ? '—' : `${marine.waveHeight.toFixed(1)} m`);
+      setText('sea', marine?.seaTemp === null || marine?.seaTemp === undefined ? '—' : `${Math.round(marine.seaTemp)}°`);
+
+      const tide = tideModel(new Date());
+      const tideHigh = section.querySelector<HTMLElement>('[data-wx="tide-high"]');
+      if (tideHigh) tideHigh.textContent = `${tide.highTides[0]} / ${tide.highTides[1]}`;
+      const tideSpring = section.querySelector<HTMLElement>('[data-wx="tide-spring"]');
+      if (tideSpring) tideSpring.textContent = tide.springNeap;
+      const tideHint = section.querySelector<HTMLElement>('[data-wx="tide-hint"]');
+      if (tideHint) tideHint.textContent = tide.harvestHint;
+
+      const alertsBox = section.querySelector<HTMLElement>('#wx-alerts');
+      if (alertsBox) {
+        alertsBox.innerHTML = advice.hasAlert
+          ? `<div class="rounded-2xl border border-[#bb3026]/30 bg-[#fff4f2] p-5">
+               <p class="flex items-center gap-2 text-sm font-black text-[#bb3026]"><span>⚠️</span><span>氣象風險提醒</span></p>
+               <ul id="wx-alert-list" class="mt-3 space-y-2 text-sm font-bold text-[#9c2a1d]">${listHtml(advice.alerts, '')}</ul>
+             </div>`
+          : `<div class="rounded-2xl border border-[#0b6871]/20 bg-[#f1faf7] p-4 text-sm font-bold text-[#0b6871]">✅ 今日無氣象預警（實際行程仍以中央氣象署最新特報為準）</div>`;
+      }
+
+      setHtml('wx-outfit', listHtml(advice.outfit, '今日無特別穿搭提醒'));
+      setHtml('wx-activity', listHtml(advice.activity, '今日無特別行程提醒'));
+      setHtml('wx-packing', listHtml(advice.packing, '今日無特別物品提醒'));
+
+      const daily = section.querySelector<HTMLElement>('#wx-daily');
+      if (daily && snapshot.daily.length) daily.innerHTML = dailyItemsHtml(snapshot.daily);
+
+      const stamp = section.querySelector<HTMLElement>('[data-wx="stamp"]');
+      if (stamp && current?.time) stamp.textContent = `${timeLabel(current.time)} 更新`;
+    };
+
+    fetchWeather(lat, lon)
+      .then(paint)
+      .catch(() => {
+        /* 抓取失敗時保留原已呈現的資料，不打斷閱讀 */
+      });
+  }
+</script>

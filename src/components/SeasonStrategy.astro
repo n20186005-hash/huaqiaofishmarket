@@ -1,0 +1,101 @@
+---
+import { CITY_NAME, ATTRACTION_SHORT_NAME } from '../data/site';
+
+const seasons = [
+  {
+    name: '春季（3–5 月）',
+    climate: '氣溫回暖、鋒面帶來春雨，東北季風逐漸轉弱；海況多數時間平穩。',
+    highlight: '東港黑鮪魚文化觀光季多在春季至初夏舉辦，市場與港區活動密度較高（實際日期以主辦單位公告為準）。',
+    gear: '薄長袖、摺疊傘、止滑鞋、輕便背包',
+    caution: '活動期間人潮與車流增加，停車與用餐等候時間拉長。'
+  },
+  {
+    name: '夏季（6–8 月）',
+    climate: '炎熱潮濕，午後雷陣雨常見，並進入颱風季；紫外線偏強。',
+    highlight: '上午與接近傍晚相對舒適；市場屬黃昏型魚市，中午後攤位節奏較完整。',
+    gear: '防曬用品、遮陽帽、飲水與電解質、雨具',
+    caution: '留意颱風與豪雨特報，船班與戶外行程可能臨時調整。'
+  },
+  {
+    name: '秋季（9–11 月）',
+    climate: '天氣相對穩定，東北季風逐漸增強，早晚轉涼、溫差變大。',
+    highlight: '適合把市場與大鵬灣環灣、濕地觀察串在一起；光線條件對攝影友善。',
+    gear: '薄外套、防風衣物、雨具備用',
+    caution: '東北季風期間海況變化較快，搭船前務必確認航班。'
+  },
+  {
+    name: '冬季（12–2 月）',
+    climate: '東北季風明顯，港區風勢較強，體感偏涼且偶有濕冷。',
+    highlight: '人潮相對少，適合慢慢看魚貨、觀察拍賣與分區作業。',
+    gear: '防風外套、保暖層、止滑鞋',
+    caution: '戶外與碼頭行程需縮短停留；風大時注意帽子與輕物。'
+  }
+];
+
+const monthNotes = [
+  ['3–5 月', '春季鋒面與活動季', '攜帶雨具，留意活動期間的人潮與交通管制'],
+  ['6–8 月', '炎熱與颱風季', '避開正午長時間曝曬，出發前查颱風與豪雨特報'],
+  ['9–11 月', '穩定舒適季', '適合半日至全日行程，東北季風起時留意海況'],
+  ['12–2 月', '東北季風季', '防風保暖，戶外與碼頭行程預留彈性']
+];
+---
+
+<section class="section bg-[#fff3d2]" id="seasons">
+  <div class="shell">
+    <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div>
+        <p class="eyebrow">季節策略</p>
+        <h2 class="h2">什麼季節來{ATTRACTION_SHORT_NAME}最適合？四季氣候、看點與裝備一次看懂</h2>
+      </div>
+      <p class="max-w-lg text-sm text-[#6b5a20]">
+        {CITY_NAME}臨海，季風、颱風與午後雷陣雨都會影響行程舒適度與船班。下表以氣候特徵、當季看點與裝備建議為主，實際活動與漁況請以主辦單位、漁會與現場公告為準。
+      </p>
+    </div>
+
+    <div class="mt-9 grid gap-5 lg:grid-cols-2">
+      {
+        seasons.map((season) => (
+          <article class="rounded-[1.35rem] bg-white p-7 shadow-sm">
+            <h3 class="text-2xl font-black">{season.name}</h3>
+            <dl class="mt-4 space-y-3 text-sm">
+              <div><dt class="font-extrabold text-[#bb3026]">氣候與海況</dt><dd class="mt-1 text-[#526d72]">{season.climate}</dd></div>
+              <div><dt class="font-extrabold text-[#bb3026]">當季看點</dt><dd class="mt-1 text-[#526d72]">{season.highlight}</dd></div>
+              <div><dt class="font-extrabold text-[#bb3026]">建議裝備</dt><dd class="mt-1 text-[#526d72]">{season.gear}</dd></div>
+              <div><dt class="font-extrabold text-[#bb3026]">注意事項</dt><dd class="mt-1 text-[#526d72]">{season.caution}</dd></div>
+            </dl>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-8 overflow-hidden rounded-[1.5rem] border border-[#e2ad32]/40 bg-white">
+      <h3 class="border-b border-[#e2ad32]/30 px-6 py-4 text-lg font-black">月份速查</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[38rem] text-left text-sm">
+          <thead class="bg-[#fff9df] text-[#8a6d16]">
+            <tr>
+              <th class="px-6 py-3 font-extrabold">月份</th>
+              <th class="px-6 py-3 font-extrabold">季節關鍵字</th>
+              <th class="px-6 py-3 font-extrabold">行前重點</th>
+            </tr>
+          </thead>
+          <tbody class="text-[#526d72]">
+            {
+              monthNotes.map((row) => (
+                <tr class="border-t border-[#e2ad32]/20">
+                  {row.map((cell) => <td class="px-6 py-3 align-top">{cell}</td>)}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-6 grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-[#e2ad32]/40 bg-[#fff9df] p-5 text-sm text-[#5c4a12]"><h4 class="font-black">颱風與豪雨</h4><p class="mt-2">發布警特報期間，戶外、碼頭與船班行程應以安全為優先，並依官方指示調整。</p></div>
+      <div class="rounded-2xl border border-[#e2ad32]/40 bg-[#fff9df] p-5 text-sm text-[#5c4a12]"><h4 class="font-black">東北季風</h4><p class="mt-2">秋冬季風期間陣風明顯，港區與跨海大橋周邊需注意保暖與隨身物品。</p></div>
+      <div class="rounded-2xl border border-[#e2ad32]/40 bg-[#fff9df] p-5 text-sm text-[#5c4a12]"><h4 class="font-black">漁況與活動</h4><p class="mt-2">漁獲種類、產量與活動檔期會變動，請以漁會、主辦單位與現場公告為準。</p></div>
+    </div>
+  </div>
+</section>

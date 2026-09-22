@@ -1,0 +1,179 @@
+---
+import { CITY_NAME, STATE_PROVINCE, ATTRACTION_FULL_NAME, ATTRACTION_SHORT_NAME } from '../data/site';
+
+const modes = [
+  {
+    icon: '✈️',
+    title: '高雄國際機場（小港）出發',
+    best: '剛下飛機、行李較多或同行人數多',
+    steps: [
+      '公路客運：可搭 9117／9117A 等往東港、大鵬灣方向的路線，於東港市區或鄰近站點下車後步行或轉乘。',
+      '計程車／合法叫車：機場到東港點對點接駁，車程與費用視路況與時段而定。',
+      '租車自駕：由機場租車後銜接台 88 快速道路與省道系統進入東港。'
+    ],
+    note: '客運班次、停靠站與票價會調整，出發前請以業者與主管機關最新公告為準。'
+  },
+  {
+    icon: '🚄',
+    title: '高鐵左營站出發',
+    best: '由中北部南下、想一次轉乘到位',
+    steps: [
+      '大鵬灣官方交通資訊列有台灣好行 9127D、9127G 等往東港方向路線，可留意「東琉線碼頭」等鄰近站點。',
+      '也可由高鐵站轉乘台鐵或市區客運，再接往東港的路線。',
+      '同行人數較多時，計程車或合法叫車可縮短轉乘次數。'
+    ],
+    note: '觀光季與連假可能加開或調整班次，上車前確認當日班次與停靠。'
+  },
+  {
+    icon: '🚆',
+    title: '台鐵與屏東市區出發',
+    best: '已在高屏地區、預算優先',
+    steps: [
+      '由屏東轉運站可搭 8202 往東港，再銜接 9127D；另有 8203 往東港碼頭方向。',
+      '台鐵車站（如高雄、屏東、潮州等）多需再轉乘客運或計程車，不建議只看直線距離估算步行時間。',
+      '若落點在東港市區，最後一段可步行或以計程車銜接。'
+    ],
+    note: '公車班次密度低於捷運系統，建議抓緩衝時間並確認末班車。'
+  },
+  {
+    icon: '🚌',
+    title: '公車／客運到站後怎麼走',
+    best: '大眾運輸旅客',
+    steps: [
+      '官方資料列出的「東港漁港漁產品直銷中心」公車站距離市場非常近。',
+      '「東琉線碼頭站」亦在步行範圍，可作為備援下車點。',
+      '下車後依朝隆路與漁港指標步行，留意貨車與装卸動線。'
+    ],
+    note: '站牌位置可能因道路工程調整，以現場站牌與即時資訊為準。'
+  },
+  {
+    icon: '🚕',
+    title: '計程車／合法叫車',
+    best: '攜帶長輩、小孩、大量行李或趕船班',
+    steps: [
+      '可作為機場、高鐵、台鐵或東港市區的點對點接駁。',
+      '建議使用合法車輛；出發前確認計費方式（跳表或預估費用）。',
+      '連假、用餐尖峰與渡船尖峰可能拉長等待時間。'
+    ],
+    note: '上下車請避開市場出入口與装卸區，避免妨礙作業動線。'
+  },
+  {
+    icon: '🚗',
+    title: '自駕與停車',
+    best: '家庭旅遊、想串聯大鵬灣與周邊',
+    steps: [
+      '由高雄方向可銜接台 88 快速道路與國道／省道系統進入東港。',
+      '最後一段依即時導航前往朝隆路與漁港周邊停車區。',
+      '漁港周邊有停車空間，官方資料亦列有鄰近停車場；車位與費率以現場為準。'
+    ],
+    note: '避免在市場出入口臨停；連假與渡船尖峰容易壅塞，可提早或改停外圍再步行。'
+  },
+  {
+    icon: '🚢',
+    title: '渡輪與東琉線碼頭',
+    best: '要續往小琉球，或想理解市場與港口的關係',
+    steps: [
+      '東琉線碼頭是東港往返小琉球的重要交通節點，市場與碼頭相距不遠。',
+      '船班受海況與季節影響，航班與售票以船務公告為準。',
+      '若當天要搭船，建議把市場安排在開市後、搭船前的緩衝時段。'
+    ],
+    note: '本站只說明交通節點與類型，不推薦或代訂特定船務與票務服務。'
+  },
+  {
+    icon: '🚶',
+    title: '步行與最後一段動線',
+    best: '已抵達東港市區或停好車',
+    steps: [
+      '從站牌或停車場步行進入市場，建議預留遮陽、避雨與地面濕滑的緩衝。',
+      '市場周邊人車混合，請留意魚貨装卸車與推車。',
+      '離開市場後可串聯東琉線碼頭、東隆宮與港區散步路線。'
+    ],
+    note: '南部日照與午後雷陣雨明顯，步行段建議搭配帽子、雨具與止滑鞋。'
+  },
+  {
+    icon: '🛵',
+    title: '機車與單車',
+    best: '在地移動、短程串聯',
+    steps: [
+      '東港市區與港區道路尺度適合機車移動，停放時請依現場標示與規定。',
+      '單車適合環灣與港區平緩路段，需注意漁港作業車輛。',
+      '長途前往市場仍建議以客運、火車或汽車為主。'
+    ],
+    note: '請勿占用市場出入口、装卸區與無障礙通道停放。'
+  }
+];
+
+const comparison = [
+  ['公路客運', '預算型、單人或雙人', '費用低、可直達東港市區', '班次密度低，需配合時刻表與停靠站'],
+  ['台灣好行／觀光路線', '觀光客、想少轉乘', '路線鎖定景區，指標較清楚', '旺季易客滿，班次與停靠以公告為準'],
+  ['計程車／合法叫車', '長輩、小孩、趕時間', '點對點、行李友善', '尖峰等待時間與費用較高'],
+  ['自駕', '家庭、多點串聯', '行程彈性、可串聯大鵬灣', '停車與連假壅塞風險，需留意費率'],
+  ['渡輪（東琉線）', '續往小琉球', '市場與港口行程可一次完成', '受海況影響，需預留緩衝']
+];
+---
+
+<section class="section bg-[#092f37] text-white" id="transport">
+  <div class="shell">
+    <p class="eyebrow !text-[#ffd773]">位置與交通攻略</p>
+    <h2 class="h2">{ATTRACTION_SHORT_NAME}怎麼去：機場、高鐵、台鐵、客運、計程車與自駕全攻略</h2>
+    <p class="lead !text-[#cfe2df]">
+      不論從高雄國際機場、高鐵左營站、台鐵與屏東市區，或自駕、搭渡輪前來，最後一段都集中在朝隆路與東港漁港周邊。以下只整理「路線類型與決策重點」，實際班次、票價與車程請以業者與主管機關最新公告為準。
+    </p>
+
+    <div id="location" class="mt-8 grid gap-4 rounded-[1.5rem] border border-white/12 bg-white/5 p-6 md:grid-cols-2 xl:grid-cols-4">
+      <div><p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">起點→終點</p><p class="mt-2 text-sm text-[#d7e9e6]">高雄／屏東各主要交通節點 → {STATE_PROVINCE}{CITY_NAME}朝隆路 39 號</p></div>
+      <div><p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">主要幹道</p><p class="mt-2 text-sm text-[#d7e9e6]">台 88 快速道路、省道系統 → 東港市區 → 朝隆路與漁港周邊</p></div>
+      <div><p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">關鍵站點</p><p class="mt-2 text-sm text-[#d7e9e6]">東港漁港漁產品直銷中心站、東琉線碼頭站、東港轉運節點</p></div>
+      <div><p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">最後一段</p><p class="mt-2 text-sm text-[#d7e9e6]">站牌或停車場步行進入市場，留意装卸車與濕滑地面</p></div>
+    </div>
+
+    <div class="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {
+        modes.map((mode) => (
+          <article class="ticket p-6">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl" aria-hidden="true">{mode.icon}</span>
+              <h3 class="text-xl font-black">{mode.title}</h3>
+            </div>
+            <p class="mt-3 text-xs font-extrabold tracking-[.14em] text-[#ffd773]">適合：{mode.best}</p>
+            <ul class="mt-3 space-y-2 text-sm text-[#bad2cf]">
+              {mode.steps.map((step) => <li class="flex gap-2"><span aria-hidden="true">・</span><span>{step}</span></li>)}
+            </ul>
+            <p class="mt-4 border-t border-white/12 pt-3 text-xs text-[#9fbdb9]">{mode.note}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 overflow-hidden rounded-[1.5rem] border border-white/12 bg-white/5">
+      <h3 class="border-b border-white/12 px-6 py-4 text-lg font-black">交通方式比較：哪一種最適合你的行程</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[46rem] text-left text-sm">
+          <thead class="bg-white/5 text-[#ffd773]">
+            <tr>
+              <th class="px-6 py-3 font-extrabold">方式</th>
+              <th class="px-6 py-3 font-extrabold">適合情境</th>
+              <th class="px-6 py-3 font-extrabold">優點</th>
+              <th class="px-6 py-3 font-extrabold">注意事項</th>
+            </tr>
+          </thead>
+          <tbody class="text-[#cfdedb]">
+            {
+              comparison.map((row) => (
+                <tr class="border-t border-white/10">
+                  {row.map((cell) => <td class="px-6 py-3 align-top">{cell}</td>)}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-white/12 bg-white/5 p-5 text-sm text-[#bad2cf]"><h4 class="font-black text-white">行前確認 1：班次</h4><p class="mt-2">公車與觀光路線班次會隨季節調整，出發前一晚再確認一次當日班表與停靠站。</p></div>
+      <div class="rounded-2xl border border-white/12 bg-white/5 p-5 text-sm text-[#bad2cf]"><h4 class="font-black text-white">行前確認 2：海況</h4><p class="mt-2">若當天要續搭東琉線船班，先確認海況與航班，再安排逛市場的時間。</p></div>
+      <div class="rounded-2xl border border-white/12 bg-white/5 p-5 text-sm text-[#bad2cf]"><h4 class="font-black text-white">行前確認 3：尖峰</h4><p class="mt-2">週末、連假與用餐時段人車較多，停車與候位時間都要預留。</p></div>
+    </div>
+  </div>
+</section>

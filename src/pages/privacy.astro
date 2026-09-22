@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const title = '隱私權政策｜東港華僑市場旅遊指南';
+import { withSiteName } from '../data/site';
+const title = withSiteName('隱私權政策');
 ---
 <BaseLayout title={title} description="東港華僑市場旅遊指南隱私權政策。" noindex={false}>
   <article class="shell prose-page py-16 md:py-24"><p class="eyebrow">隱私權政策</p><h1 class="h2">隱私權政策</h1><p class="font-bold text-[#092f37]">最後更新：2026年8月</p><p>本網站是獨立、非營利的旅遊資訊專案。我們遵循資料最小化原則，只處理提供網站與理解整體使用情況所必要的資料；無會員系統、無登入、無資料庫，也不販售個人資料。</p>
