@@ -16,8 +16,7 @@
     "deploy": "pnpm dlx wrangler@4.125.0 deploy",
     "deploy:dry": "pnpm dlx wrangler@4.125.0 deploy --dry-run",
     "audit": "node scripts/audit.mjs",
-    "audit:language": "node scripts/language-audit.mjs",
-    "vendor:photos": "node scripts/vendor-photos.mjs"
+    "audit:language": "node scripts/language-audit.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.10",

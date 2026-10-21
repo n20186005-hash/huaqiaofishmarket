@@ -8,7 +8,7 @@ const SITE = process.env.SITE_URL || 'https://huaqiaofishmarket.com';
 export default defineConfig({
   site: SITE || undefined,
   output: 'static',
-  integrations: SITE ? [sitemap()] : [],
+  integrations: SITE ? [sitemap({ filter: (page) => !page.endsWith('/404.html') })] : [],
   vite: {
     plugins: [tailwindcss()],
   },

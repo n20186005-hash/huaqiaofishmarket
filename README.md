@@ -1,64 +1,23 @@
-# 東港華僑市場非營利旅遊指南
+# 東港華僑市場獨立旅遊指南
 
-為屏東縣東港鎮「東港漁港漁產品直銷中心（原華僑市場）」製作的獨立非營利景點資訊網站。主站為單頁式深度落地頁，另有隱私權政策、服務條款與 Cookie 設定三個獨立二級頁面。
+保留繁體中文首頁、營業時間、停車交通、美食、隱私、條款、Cookie設定等七個正式網址與noindex404。歷史、分區、交通及設施保留官方來源脈絡；來源列表不等同當日可用性保證。
 
-## 技術版本
+## 本地檢查
 
-- Astro `7.2.4`
-- Tailwind CSS `4.3.3` + `@tailwindcss/vite` `4.3.3`
-- TypeScript `6.0.3`（落在 `@astrojs/check@0.9.10` 的 `^5.0.0 || ^6.0.0` 支援範圍）
-- pnpm `11.23.0`
-- Node.js `24.19.0` LTS
-- Cloudflare Wrangler `4.125.0`（部署指令精確鎖定）
-- 無資料庫、無登入、無 CMS
+Node24、pnpm11.23.0；使用鎖定依賴，執行`pnpm check`、`pnpm build`、`node scripts/audit.mjs`、`pnpm audit:language`與`node scripts/behavior-test.mjs`。`dist/`保留忽略並由部署重新產生。工作區設定保留現有安裝建置政策。
 
-所有 `package.json` 直接依賴都使用精確版本；`pnpm-lock.yaml` 與直接依賴同步。此單包專案不需要 `pnpm-workspace.yaml`。
+## 部署
 
-## 網域唯一設定點
+既有Cloudflare專案為`huaqiaofishmarket`，Wrangler4.125.0指令固定版本；Worker使用ASSETS並處理HTTP/www301、路徑查詢保留與真實404/noindex。確認新commit的正式構建、既有域名綁定及實際頁面後才算發佈驗收。原成功構建只對應原版本，程式不變更Access設定。
 
-只需修改 `astro.config.mjs` 內的 `SITE`（目前已設為 `https://huaqiaofishmarket.com`，可用 `SITE_URL` 環境變數覆寫）。未設定正式網域時保留空字串即可正常建置；此時 canonical、絕對 Open Graph URL、絕對 JSON-LD URL 與 sitemap 會省略，不會使用占位網域。設定正式 HTTPS 網域後，`@astrojs/sitemap` 才會啟用。
+## 公開來源與圖片
 
-## 單一景點實體綁定（Entity Binding）
+2026-10-20地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00分別歸因；兩官方來源列首個星期二清潔休。日期評分只出現在可見內容，不輸出aggregateRating或營業時間schema。細節見CONTENT-REVIEW.md。
 
-所有景點事實（官方全稱、俗稱、城市、縣、國家、郵遞區號、經緯度、Plus Code、電話、Google 地圖分享／嵌入連結、官方觀光連結、評分快照）集中定義在 `src/data/site.ts`：
+歷史漁港與大鵬灣照片已本地化，明確區分市場建築與不同目的地；來源、作者、日期、授權與修改在每頁可見。見IMAGE-CREDITS.md。品牌標誌不是實景照片。
 
-- `SITE_NAME` 為「景點名稱＋城市＋旅遊指南」格式的 SEO 站名；子頁標題經 `withSiteName()` 自動附加後綴。
-- 首頁 JSON-LD 輸出 `WebSite`、`TouristAttraction`（含 `@id`、`image`、`hasMap`、`sameAs`、`isAccessibleForFree`、`aggregateRating`）、`BreadcrumbList` 與 `FAQPage`。
-- `public/robots.txt` 指向 `https://huaqiaofishmarket.com/sitemap-index.xml`；`public/_headers` 下發 HSTS 與安全標頭。HTTP→HTTPS 301 由 Cloudflare 控制台「Always Use HTTPS」處理。
+## 偏好與預報
 
-## PWA
+Google Analytics須明確允許；拒絕立即生效，儲存失敗時有同分頁停用機制與限制訊息；同頁重新允許會更新有效同意且不重複載入。舊Cookie不作新的允許依據。舊SW快取退役。Google地圖獨立連線，隱私頁說明實際資料流。天氣與潮汐保留官方CWA查詢入口，不在網站推算今日高潮或提供下水安全保證。
 
-`public/site.webmanifest` + `public/sw.js`（頁面 network-first、靜態資產 cache-first），註冊腳本位於 `src/layouts/BaseLayout.astro`。圖示由 `python scripts/gen-pwa-icons.py`（需要 Pillow）依 `public/logo.svg` 設計產生 `public/icons/icon-192.png`、`icon-512.png`、`icon-512-maskable.png`。
-
-## 開發與檢查
-
-```bash
-corepack enable
-CI=1 corepack pnpm install --frozen-lockfile
-pnpm check
-pnpm build
-pnpm run audit
-pnpm run audit:language
-```
-
-## Cloudflare Workers Static Assets
-
-`wrangler.jsonc` 以 Workers Static Assets 發佈 Astro 靜態輸出：
-
-```bash
-pnpm build
-pnpm deploy
-```
-
-## GA4 與 Cookie
-
-測量 ID 為 `G-HXM22WWPKP`。分析腳本預設不載入；只有使用者在 `/cookies/` 明確允許分析型 Cookie 後才動態載入。本站不使用行銷／個人化廣告追蹤。
-
-## 圖片
-
-實景照片使用公共觀光資料與可標示授權的 Wikimedia Commons 圖片。由於本次執行環境無法解析外部圖片主機 DNS，照片保留為受控來源的 HTTPS URL，而非偽造本地檔；來源與授權說明見 `IMAGE-CREDITS.md`。在可連線的建置環境執行 `pnpm vendor:photos` 即可把三張實景照片下載到 `public/images/`；主頁建置時會自動優先使用本地檔案，無須再改程式碼。
-
-
-## 版本新鮮度說明
-
-本次研究時 npm 已顯示 Astro `7.2.6` 為最新穩定版；但目前執行環境無法連線 npm registry，無法為剛發布版本重新產生可驗證的 `pnpm-lock.yaml`。為避免手工偽造 lockfile，本交付保留已同步驗證的 Astro `7.2.4` 鎖檔組合。這是目前唯一已知的『最新穩定版』偏差，詳見 `DELIVERY-CHECK.md`。在可連線環境應先升級 Astro 並重新鎖檔，再完成最終 CI。
+私有分析報表和診斷保留在倉庫外。
