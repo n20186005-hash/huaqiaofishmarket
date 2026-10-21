@@ -37,8 +37,8 @@ export const LATITUDE = 22.468089;
 export const LONGITUDE = 120.44332;
 /** 門牌地址 */
 export const STREET_ADDRESS = '朝安里朝隆路39號';
-/** Google Plus Code */
-export const PLUS_CODE = 'FC9V+68 朝安里 台灣屏東縣東港鎮';
+/** 地圖座標參考 */
+export const PIN_REFERENCE = '22.468089, 120.44332';
 /** 聯絡電話 */
 export const TELEPHONE_DISPLAY = '08-833-9969';
 export const TELEPHONE = '+886-8-833-9969';
@@ -46,8 +46,7 @@ export const TELEPHONE = '+886-8-833-9969';
 /** Google Maps 分享短連結 */
 export const MAPS_SHARE_URL = 'https://maps.app.goo.gl/h7gVHwrv5e6CSpV77';
 /** Google Maps 嵌入 src */
-export const MAPS_EMBED_SRC =
-  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6567.399795228191!2d120.44074507712622!3d22.468088979566218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3471e18f8d367ea7%3A0x36c27f3352f7c7a4!2sHuaqiao%20Fish%20Market!5e1!3m2!1szh-TW!2stw!4v1787622030309!5m2!1szh-TW!2stw';
+export const MAPS_EMBED_SRC = 'https://maps.google.com/maps?q=22.468089,120.44332&z=15&output=embed';
 
 /** 周邊核心地標 */
 export const NEARBY_LANDMARK_1 = '東港東隆宮';
@@ -61,11 +60,11 @@ export const GOVT_SCENIC_NAME = '交通部觀光署大鵬灣國家風景區管�
 
 /** 第三方公開評分快照（會變動，僅作參考） */
 export const RATING_VALUE = 4.3;
-export const RATING_COUNT = 39447;
-export const RATING_SOURCE_NOTE = 'Google 地圖公開評分快照（4.3／5，39,447 則）';
+export const RATING_COUNT = 39645;
+export const RATING_SOURCE_NOTE = '2026-10-20 Google 地圖公開評分快照（4.3／5，39,645 則）';
 
 /** SEO 站名格式：景點名稱 + 城市 + 旅遊指南 */
-export const SITE_NAME = `${ATTRACTION_FULL_NAME}${CITY_SHORT}旅遊指南`;
+export const SITE_NAME = `${ATTRACTION_FULL_NAME}｜${CITY_SHORT}旅遊指南`;
 /** PWA／短標題用品牌名 */
 export const SITE_SHORT_NAME = '華僑市場';
 

@@ -1,16 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {
-  SITE_NAME, SITE_URL, withSiteName, ATTRACTION_FULL_NAME, ATTRACTION_SHORT_NAME,
+  SITE_NAME, SITE_URL, withSiteName, ATTRACTION_FULL_NAME,
   STATE_PROVINCE, CITY_NAME, TELEPHONE, TELEPHONE_DISPLAY, MAPS_SHARE_URL,
   GOVT_TOURISM_URL, GOVT_SCENIC_URL
 } from '../data/site';
 
 const pageTitle = withSiteName('停車場｜自駕路線、周邊停車、公車到站');
-const pageDescription = `東港華僑市場（${ATTRACTION_FULL_NAME}）周邊停車與交通指引：漁港周邊停車空間、自臺88與國道自驾路線、公車到站方式，以及連假與渡船尖峰的壅塞提醒。本頁整理停車、交通與實用建議。`;
+const pageDescription = `東港華僑市場（${ATTRACTION_FULL_NAME}）周邊停車與交通指引：漁港周邊停車空間、自臺88與國道自駕路線、公車到站方式，以及連假與渡船尖峰的壅塞提醒。本頁整理停車、交通與實用建議。`;
 
 const faqs = [
-  ['華僑市場有停車場嗎？', `漁港周邊有停車空間，官方資料列有鄰近停車場。車位、費率與出入口會隨現場與活動調整，請以現場標示與最新公告為準。`],
+  ['華僑市場有停車場嗎？', `2026-10-20查閱的觀光署頁列有東港漁港停車場、東港中正新基停車場；此為來源記錄。車位、費率與出入口會隨現場與活動調整，請以現場標示與最新公告為準。`],
   ['自駕怎麼去華僑市場？', `由高雄方向可銜接台 88 快速道路與國道／省道系統進入東港，最後一段依即時導航前往朝隆路與漁港周邊停車區，避免在市場出入口臨停。`],
   ['搭大眾運輸怎麼到？', `可善用台灣好行 9127D／9127G、公路客運與台鐵轉乘公車等方式；官方資料列出的「東港漁港漁產品直銷中心」公車站距離很近，「東琉線碼頭站」也在步行範圍。`],
   ['連假停車會很難嗎？', `週末、連假與渡船尖峰容易壅塞，車位與等候時間通常拉長。建議避開主要用餐與渡船時段，或搭配大眾運輸減少停車壓力。`]
@@ -63,12 +63,12 @@ const faqSchema = {
     <div class="shell">
       <h2 class="h2">周邊停車與自駕</h2>
       <div class="mt-8 grid gap-5 md:grid-cols-2">
-        <article class="card p-7"><h3 class="text-xl font-black">🅿️ 周邊停車空間</h3><p class="mt-3 text-sm text-[#456267]">漁港周邊有停車空間，官方資料列有鄰近停車場。連假與渡船尖峰容易壅塞，車位、費率與出入口以現場為準。</p></article>
+        <article class="card p-7"><h3 class="text-xl font-black">🅿️ 周邊停車空間</h3><p class="mt-3 text-sm text-[#456267]">2026-10-20查閱的觀光署頁列有東港漁港停車場、東港中正新基停車場；此為來源記錄。連假與渡船尖峰容易壅塞，車位、費率與出入口以現場為準。</p></article>
         <article class="card p-7"><h3 class="text-xl font-black">🚗 自駕路線</h3><p class="mt-3 text-sm text-[#456267]">由高雄方向可銜接台 88 快速道路與國道／省道系統進入東港。最後一段依即時導航前往朝隆路與漁港周邊停車區，避免在市場出入口臨停。</p></article>
       </div>
       <div class="mt-8 rounded-[1.5rem] border border-[#e2ad32]/40 bg-[#fff9df] p-6">
         <h3 class="text-lg font-black text-[#5c4a12]">電動車充電與加油</h3>
-        <p class="mt-3 text-sm text-[#5c4a12]">漁港與東港市區周邊有加油服務。電動車充電點變動較快，出發前請以車廠、停車場或公用充電即時地圖確認可用性與規格。</p>
+        <p class="mt-3 text-sm text-[#5c4a12]">本指南未核實特定加油或充電設施的位置與營運，請先安排補給。電動車充電點變動較快，出發前請以車廠、停車場或公用充電即時地圖確認可用性與規格。</p>
       </div>
     </div>
   </section>
@@ -91,7 +91,7 @@ const faqSchema = {
       <p class="eyebrow">相關專題</p>
       <h2 class="h2">其他東港華僑市場攻略</h2>
       <div class="mt-8 grid gap-5 md:grid-cols-2">
-        <a href="/hours/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🕐</div><h3 class="mt-4 text-xl font-black">營業時間專頁</h3><p class="mt-2 text-sm text-[#456267]">11:00–20:00、每月第一個星期二清潔公休，以及不同官方頁面的時間差異說明。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看營業時間 →</span></a>
+        <a href="/hours/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🕐</div><h3 class="mt-4 text-xl font-black">營業時間專頁</h3><p class="mt-2 text-sm text-[#456267]">地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00與官方清潔公休的來源比對。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看營業時間 →</span></a>
         <a href="/food/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🐟</div><h3 class="mt-4 text-xl font-black">美食推薦專頁</h3><p class="mt-2 text-sm text-[#456267]">黑鮪魚生魚片、旗魚黑輪、現流海鮮代客料理與選購注意。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看美食 →</span></a>
       </div>
     </div>

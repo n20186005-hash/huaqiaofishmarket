@@ -1,9 +1,10 @@
-# 圖片來源與權利標示
+# Photo credits
 
-本站使用真實場景照片，不以生成圖冒充景點實景。
+| Local file | Exact file source | Author and source date | Licence |
+| --- | --- | --- | --- |
+| public/images/donggang-harbor.jpg | [屏東縣東港漁港.jpg](https://commons.wikimedia.org/wiki/File:%E5%B1%8F%E6%9D%B1%E7%B8%A3%E6%9D%B1%E6%B8%AF%E6%BC%81%E6%B8%AF.jpg) | 雅婕,2020-09-06,own work,photographed below Fengyu Bridge | [CC BY-SA4.0](https://creativecommons.org/licenses/by-sa/4.0/),selected from dual licence |
+| public/images/dapeng-bay-bridge.jpg | [Dapeng Bay National Scenic Area, Tourism Administration 1.jpg](https://commons.wikimedia.org/wiki/File:Dapeng_Bay_National_Scenic_Area,_Tourism_Administration_1.jpg) | Tourism Administration MOTC,2022-01-01 | [Government Website Open Information Announcement](https://admin.taiwan.net.tw/English/Others/Articles?a=106) as explicitly identified on the individual file page |
 
-- `市場外觀`：交通部觀光署「東港漁港漁產品直銷中心（華僑市場）」景點公開圖片。網站以官方原始圖片網址顯示；正式上線前若取得可再散布的本地副本，建議依授權條款改為本地託管並保留來源。
-- `東港漁港`：Wikimedia Commons，檔案「屏東縣東港漁港.jpg」，作者雅婕，CC BY-SA 4.0。
-- `大鵬灣跨海大橋`：Wikimedia Commons，原始來源為交通部觀光署，依「政府網站資料開放宣告」標示來源使用。
+Original files downloaded from the exact original links and pixels inspected. Changes: resized/recompressed; display may crop. Harbor adaptation remains CC BY-SA4.0. These are historic harbor/bridge scenes, not proof of the market exterior, current facilities or a connected route. Each original file and licence is linked visibly on all pages with author/date/modification notice.
 
-專案的 logo 與 favicon 為本站原創向量圖形，概念取自魚、海浪與市場印章，不使用官方商標。
+File-page licence, history and warnings were read; no deletion/rights warning was visible in retrieved content. This is evidence for attributed use, not a legal guarantee. Government terms include exclusions for third-party works; the retained bridge file has its own explicit attribution licence and Tourism Administration author record. The old exterior image was removed because an exact individual licence was not established, not because a rights dispute was found. The guide's logo/icons are original branding illustrations, not claimed destination photos.

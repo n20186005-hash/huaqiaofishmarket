@@ -1,29 +1,3 @@
-# 內容資料筆記
+# Sources and scope
 
-核心資料來源：
-
-1. 交通部觀光署：東港漁港漁產品直銷中心（華僑市場）景點資料——地址、座標、電話、11:00–20:00、每月第一個星期二公休、市場故事、2012 年重建、約 1,500 坪與 400 多攤位、無障礙設施、鄰近交通／停車。
-2. 交通部觀光署大鵬灣國家風景區管理處：原華僑市場景點介紹與區外交通——高雄國際機場、高鐵左營、客運路線與東港／大鵬灣串聯。
-3. 屏東縣政府交通旅遊處、屏東縣東港鎮公所公開資料——地方交通與旅遊資訊交叉核對。
-4. Google Maps——地理位置與使用者提供的嵌入地圖；不作為唯一的營業資訊依據。
-
-## 編輯原則
-
-- 不推薦或排名特定商戶；餐飲、住宿、商超、加油與充電只描述服務類型。
-- 官方資料若互相有時間差異，網站主動揭露差異並建議出發前再次確認。
-- 不編造傳說、精確費用、車程、停車費或「最後核對日期」。
-- 法律頁面使用繁體中文（台灣用語），不混入簡體中文。
-
-## 會變動的第三方評分
-
-為滿足結構化資料中的評分欄位，JSON-LD 目前使用 Google 地圖公開評分快照 `4.3 / 5（39,447 則評論）`。此數值不是主管機關資料，也不是本站自行評分；上線維運時應定期核對或在不再能合理核實時移除，避免把過期評分當作固定事實。頁面「資料來源」區塊同時揭露此為第三方快照。
-
-## 實體綁定欄位（2026-09 更新）
-
-- 官方全稱：東港漁港漁產品直銷中心（華僑市場）
-- 俗稱／域名含義：華僑市場（Huaqiao Fish Market）
-- 地址：928 臺灣屏東縣東港鎮朝安里朝隆路39號；Plus Code `FC9V+68 朝安里 台灣屏東縣東港鎮`
-- 電話：08-833-9969（+886-8-833-9969）
-- 座標：22.468089, 120.44332
-- Google 地圖分享連結：https://maps.app.goo.gl/h7gVHwrv5e6CSpV77
-- 類型：海鮮市場／漁產品直銷中心
+See CONTENT-REVIEW.md for current public source comparison and IMAGE-CREDITS.md for exact original photo records. Source dates identify observations, not guarantees of continued operations. Preserve conflicting official and map hours with attribution. Private analytics reports are not public repository content.

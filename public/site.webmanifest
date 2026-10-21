@@ -1,5 +1,5 @@
 {
-  "name": "東港漁港漁產品直銷中心（華僑市場）東港旅遊指南",
+  "name": "東港漁港漁產品直銷中心（華僑市場）｜東港旅遊指南",
   "short_name": "華僑市場",
   "description": "屏東縣東港鎮東港漁港漁產品直銷中心（華僑市場）的非營利旅遊指南：地址、電話、營業時間、交通停車、無障礙設施、周邊景點與常見問答。",
   "lang": "zh-Hant-TW",
@@ -11,7 +11,11 @@
   "orientation": "any",
   "background_color": "#fffdf6",
   "theme_color": "#07313a",
-  "categories": ["travel", "food", "shopping"],
+  "categories": [
+    "travel",
+    "food",
+    "shopping"
+  ],
   "icons": [
     {
       "src": "/icons/favicon.svg",

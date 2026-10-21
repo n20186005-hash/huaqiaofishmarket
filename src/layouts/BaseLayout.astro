@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SourceSnapshot from '../components/SourceSnapshot.astro';
 import { SITE_NAME, SITE_SHORT_NAME, SITE_URL, TELEPHONE, MAPS_SHARE_URL } from '../data/site';
 
 interface Props {
@@ -56,43 +57,34 @@ const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
     {schemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
-    <script is:inline>
-      (() => {
-        const id = 'G-HXM22WWPKP';
-        const read = () => {
-          const raw = document.cookie.split('; ').find((v) => v.startsWith('huaqiao_consent='));
-          if (!raw) return null;
-          try { return JSON.parse(decodeURIComponent(raw.split('=').slice(1).join('='))); } catch { return null; }
-        };
-        const c = read();
-        if (!c?.analytics) { window['ga-disable-' + id] = true; return; }
-        window['ga-disable-' + id] = false;
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function(){ window.dataLayer.push(arguments); };
-        window.gtag('js', new Date());
-        window.gtag('config', id, { anonymize_ip: true });
-        const s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
-        document.head.appendChild(s);
-      })();
-    </script>
-    <script is:inline>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
-      }
-    </script>
+
+
   </head>
-  <body class="pb-16 lg:pb-0">
+  <body>
     <Header />
-    <main><slot /></main>
-    <div class="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#062d35]/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
+    <main id="main-content"><slot />{!noindex && !['/privacy/','/terms/','/cookies/'].includes(Astro.url.pathname) && <SourceSnapshot />}</main>
+    <div class="lg:hidden border-t border-white/10 bg-[#062d35]">
       <div class="grid grid-cols-3">
         <a href={`tel:${TELEPHONE}`} class="flex flex-col items-center justify-center gap-1 py-3 text-xs font-bold text-white"><span class="text-lg leading-none">📞</span>電話</a>
         <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center gap-1 py-3 text-xs font-bold text-white border-x border-white/10"><span class="text-lg leading-none">🧭</span>導航</a>
         <a href="/hours/" class="flex flex-col items-center justify-center gap-1 py-3 text-xs font-bold text-white"><span class="text-lg leading-none">🕐</span>營業時間</a>
       </div>
     </div>
+    <section id="photo-credits" class="shell photo-attribution"><h2>照片來源、授權與修改</h2><p>照片是不同地點的歷史記錄，不表示市場建築外觀、今日設施或可通行路線。兩張照片均縮小、重新壓縮，顯示時可能裁切。</p><ul><li><a href="https://commons.wikimedia.org/wiki/File:%E5%B1%8F%E6%9D%B1%E7%B8%A3%E6%9D%B1%E6%B8%AF%E6%BC%81%E6%B8%AF.jpg">東港漁港（豐漁橋下方所攝）</a> · 雅婕 · 2020-09-06 · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>；修改後照片亦依相同授權提供。</li><li><a href="https://commons.wikimedia.org/wiki/File:Dapeng_Bay_National_Scenic_Area,_Tourism_Administration_1.jpg">Dapeng Bay National Scenic Area, Tourism Administration 1.jpg</a> · 交通部觀光署 · 2022-01-01 · <a href="https://admin.taiwan.net.tw/English/Others/Articles?a=106">政府網站資料開放宣告</a>。</li></ul></section>
     <Footer />
+    <aside id="cookie-banner" data-open="false" class="cookie-banner" aria-label="分析偏好"><p>Google Analytics 預設關閉，僅在您允許後載入。Google 地圖是另行載入的外部服務。</p><div><button id="cookies-essential" type="button">拒絕分析</button><button id="cookies-accept" type="button">允許分析</button><a href="/cookies/">詳細設定</a></div><p id="cookie-banner-status" role="status"></p></aside>
+    <script is:inline src="/consent.js" defer></script>
+    <script is:inline>
+      document.getElementById('mobile-menu-toggle')?.addEventListener('click', (event) => {
+        const button = event.currentTarget;
+        const open = button.getAttribute('aria-expanded') !== 'true';
+        button.setAttribute('aria-expanded', String(open));
+        document.getElementById('mobile-menu')?.toggleAttribute('hidden', !open);
+      });
+      if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then((items) => {
+        for (const item of items) if (item.active && new URL(item.active.scriptURL).pathname === '/sw.js') item.unregister();
+      }).catch(() => {});
+      if ('caches' in window) caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('huaqiao') || key.startsWith('donggang')).map((key) => caches.delete(key)))).catch(() => {});
+    </script>
   </body>
 </html>

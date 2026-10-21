@@ -1,18 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {
-  SITE_NAME, SITE_URL, withSiteName, ATTRACTION_FULL_NAME, ATTRACTION_SHORT_NAME,
+  SITE_NAME, SITE_URL, withSiteName, ATTRACTION_SHORT_NAME,
   STATE_PROVINCE, CITY_NAME, TELEPHONE, TELEPHONE_DISPLAY, MAPS_SHARE_URL, RATING_VALUE, RATING_COUNT
 } from '../data/site';
 
-const pageTitle = withSiteName('營業時間｜11:00–20:00、每月清潔公休');
-const pageDescription = `東港華僑市場（${ATTRACTION_FULL_NAME}）營業時間 11:00–20:00，每月第一個星期二為清潔日公休；不同官方頁面對起始時間略有差異。本頁整理開放時間、公休日、連假與黑鮪魚季的人潮提醒，以及出發前確認方式。`;
+const pageTitle = withSiteName('營業時間｜地圖與官方差異、清潔公休');
+const pageDescription = `華僑市場時間比對：2026-10-20地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00；兩官方來源列每月第一個星期二清潔公休。出發前確認當日營運與攤位安排。`;
 
 const faqs = [
-  ['華僑市場幾點營業？', '交通部觀光署頁面標示 11:00–20:00；大鵬灣官方資料對起始時間另有接近中午的描述。攤位與現場安排可能調整，出發前請以最新公告與現場為準。'],
-  ['每月哪一天公休？', `${ATTRACTION_SHORT_NAME}每月第一個星期二為例行清潔日公休，當日市場不開放。若與連假或特殊活動接近，仍以主管或營運單位最新公告為準。`],
+  ['華僑市場幾點營業？', '交通部觀光署頁面標示 11:00–20:00；大鵬灣管理處旅遊資訊欄明列12:00–20:00。攤位與現場安排可能調整，出發前請以最新公告與現場為準。'],
+  ['每月哪一天公休？', `${ATTRACTION_SHORT_NAME}在2026年10月20日查閱的兩個官方來源均列每月第一個星期二清潔公休。若與連假或特殊活動接近，仍以主管或營運單位最新公告為準。`],
   ['連假或黑鮪魚季營業時間會變嗎？', '特殊活動或連假可能調整開放時間或人潮管制，建議出發前查交通部觀光署與大鵬灣國家風景區管理處公告，並預留停車與等候時間。'],
-  ['為什麼不同網站寫的營業時間不一樣？', '官方對「開始營業」的描述略有差異（有寫 11:00、也有接近中午的說法）。本指南不做單一挑選，而是直接說明差異，並以現場與主管單位最新公告為優先。']
+  ['為什麼不同網站寫的營業時間不一樣？', '2026年10月20日，地圖為09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00，三者有差異。本指南不做單一挑選，而是直接說明差異，並以現場與主管單位最新公告為優先。']
 ];
 
 const breadcrumbSchema = {
@@ -39,7 +39,7 @@ const faqSchema = {
         </nav>
         <p class="eyebrow !text-[#ffd773]">行前必看</p>
         <h1 class="mt-2 text-[clamp(1.8rem,4.5vw,3.4rem)] font-black leading-[1.05] tracking-[-.03em]">東港華僑市場營業時間</h1>
-        <p class="mt-5 max-w-2xl text-[#d7e9e6]">出發前先掌握開放時間與每月清潔公休，避開連假與渡船尖峰，旅程會順很多。本頁整理官方時間、公休日，以及不同來源對起始時間的差異說明。Google 評分 {RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）。</p>
+        <p class="mt-5 max-w-2xl text-[#d7e9e6]">出發前先掌握開放時間與每月清潔公休，避開連假與渡船尖峰，旅程會順很多。本頁整理官方時間、公休日，以及不同來源對起始時間的差異說明。Google 評分（2026-10-20）{RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）。</p>
         <div class="mt-7 flex flex-wrap gap-3">
           <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer" class="rounded-full bg-[#0b6871] px-5 py-3 text-sm font-black text-white">Google 地圖分享連結</a>
           <a href={`tel:${TELEPHONE}`} class="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-black">電話 {TELEPHONE_DISPLAY}</a>
@@ -48,12 +48,12 @@ const faqSchema = {
       <div class="ticket p-6">
         <p class="text-xs font-extrabold tracking-[.2em] text-[#ffd773]">營業時間速覽</p>
         <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 text-sm">
-          <div><dt class="text-[#9fc5c1]">每日營業</dt><dd class="mt-1 font-extrabold">11:00–20:00*</dd></div>
+          <div><dt class="text-[#9fc5c1]">觀光署列表</dt><dd class="mt-1 font-extrabold">11:00–20:00*</dd></div>
           <div><dt class="text-[#9fc5c1]">清潔公休</dt><dd class="mt-1 font-extrabold">每月第一個星期二</dd></div>
           <div><dt class="text-[#9fc5c1]">地址</dt><dd class="mt-1 font-extrabold">{STATE_PROVINCE}{CITY_NAME}朝隆路 39 號</dd></div>
           <div><dt class="text-[#9fc5c1]">電話</dt><dd class="mt-1 font-extrabold"><a href={`tel:${TELEPHONE}`} class="hover:text-[#ffd773]">{TELEPHONE_DISPLAY}</a></dd></div>
         </dl>
-        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">* 公開官方資料對開始營業時間有些微差異，出發前請以最新公告與現場為準。</p>
+        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">* 2026-10-20：地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00；兩官方來源列首個星期二清潔休。先向營運單位確認。</p>
       </div>
     </div>
   </section>
@@ -62,13 +62,13 @@ const faqSchema = {
     <div class="shell">
       <h2 class="h2">開放時間與公休日</h2>
       <div class="mt-8 grid gap-5 md:grid-cols-3">
-        <article class="card p-7"><h3 class="text-xl font-black">每日 11:00–20:00</h3><p class="mt-3 text-sm text-[#456267]">交通部觀光署頁面標示的營業區間。市場為黃昏型魚市，中午後人潮與交易節奏更明顯。</p></article>
-        <article class="card p-7"><h3 class="text-xl font-black">每月第一個星期二公休</h3><p class="mt-3 text-sm text-[#456267]">例行清潔日，市場當日不開放。若與連假接近，請以主管或營運單位最新公告為準。</p></article>
+        <article class="card p-7"><h3 class="text-xl font-black">觀光署：11:00–20:00</h3><p class="mt-3 text-sm text-[#456267]">交通部觀光署頁面標示的營業區間。市場為黃昏型魚市，中午後人潮與交易節奏更明顯。</p></article>
+        <article class="card p-7"><h3 class="text-xl font-black">每月第一個星期二公休</h3><p class="mt-3 text-sm text-[#456267]">兩官方來源查閱時均列例行清潔公休。若與連假接近，請以主管或營運單位最新公告為準。</p></article>
         <article class="card p-7"><h3 class="text-xl font-black">以現場公告為準</h3><p class="mt-3 text-sm text-[#456267]">攤位與現場安排可能調整；特殊活動、連假或氣候因素都可能影響開放，出發前再確認一次。</p></article>
       </div>
       <div class="mt-8 rounded-[1.5rem] border border-[#e2ad32]/40 bg-[#fff9df] p-6">
         <h3 class="text-lg font-black text-[#5c4a12]">為什麼不同網站寫的營業時間不一樣？</h3>
-        <p class="mt-3 text-sm text-[#5c4a12]">官方對「開始營業」的描述略有差異：交通部觀光署頁面標示 11:00–20:00，大鵬灣官方資料則有接近中午的說法。本指南不做單一挑選，而是直接說明差異——實際開放以主管或營運單位最新公告、以及現場標示為優先。</p>
+        <p class="mt-3 text-sm text-[#5c4a12]">官方對「開始營業」的描述略有差異：交通部觀光署頁面標示 11:00–20:00，大鵬灣管理處旅遊資訊欄為12:00–20:00，Google 地圖七日列表為09:00–18:30（均於2026-10-20查閱）。本指南不做單一挑選，而是直接說明差異——實際開放以主管或營運單位最新公告、以及現場標示為優先。</p>
       </div>
     </div>
   </section>
@@ -90,7 +90,7 @@ const faqSchema = {
       <p class="eyebrow">相關專題</p>
       <h2 class="h2">其他東港華僑市場攻略</h2>
       <div class="mt-8 grid gap-5 md:grid-cols-2">
-        <a href="/parking/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🅿️</div><h3 class="mt-4 text-xl font-black">停車交通專頁</h3><p class="mt-2 text-sm text-[#456267]">周邊停車、自臺88與國道自驾、公車到站，以及連假壅塞提醒。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看停車交通 →</span></a>
+        <a href="/parking/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🅿️</div><h3 class="mt-4 text-xl font-black">停車交通專頁</h3><p class="mt-2 text-sm text-[#456267]">周邊停車、自臺88與國道自駕、公車到站，以及連假壅塞提醒。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看停車交通 →</span></a>
         <a href="/food/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🐟</div><h3 class="mt-4 text-xl font-black">美食推薦專頁</h3><p class="mt-2 text-sm text-[#456267]">黑鮪魚生魚片、旗魚黑輪、現流海鮮代客料理與選購注意。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看美食 →</span></a>
       </div>
     </div>
