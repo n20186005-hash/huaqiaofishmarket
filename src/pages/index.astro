@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WeatherSection from '../components/WeatherSection.astro';
+import TopicLinks from '../components/TopicLinks.astro';
 import {
   ATTRACTION_FULL_NAME,
   ATTRACTION_SHORT_NAME,
@@ -100,14 +101,14 @@ const websiteSchema = {
 
 const faqs = [
   ['為什麼叫「華僑市場」？','官方觀光介紹以「據傳」描述名稱由來：早期東琉線渡船頭旁的路邊漁貨攤規模不大，返程遊客常大量採買，甚至整攤買下。攤販形容這些客人像出手闊綽的返鄉華僑，市場逐漸成形後便沿用「華僑市場」的稱呼。'],
-  ['市場幾點營業？每月都有公休日嗎？','2026年10月20日查閱：Google 地圖七日列表為每日09:00–18:30；交通部觀光署為11:00–20:00；大鵬灣管理處旅遊資訊欄為12:00–20:00。兩個官方來源都列每月第一個星期二清潔公休。這些來源不同，不能視為所有攤位的營業保證，請向營運單位確認當日安排。'],
+  ['市場幾點營業？每月都有公休日嗎？','2026年10月29日查閱：Google 地圖七日列表為每日09:00–18:30；交通部觀光署為11:00–20:00；大鵬灣管理處旅遊資訊欄為12:00–20:00。兩個官方來源都列每月第一個星期二清潔公休。這些來源不同，不能視為所有攤位的營業保證，請向營運單位確認當日安排。'],
   ['需要購買門票嗎？','這裡是漁產品直銷與餐飲型市場。公開資料沒有列出固定的一般參觀門票金額；主要花費通常來自自行選購的漁貨、熟食或料理服務。若遇活動或個別服務另行收費，請依現場標示。'],
   ['建議停留多久？什麼時段比較適合？','若以逛市場、看漁產與簡單用餐為主，可預留約 1–2 小時；若還要前往漁港、東隆宮或大鵬灣，可安排半日。市場屬黃昏型魚市，中午後較有市場感；怕人潮者可避開週末與用餐尖峰。'],
   ['從高雄國際機場怎麼去？','可搭 9117／9117A 等客運方向前往東港，再依停靠站步行或轉乘；也可直接搭計程車或合法叫車服務。班次、停靠與車程會變動，請以當日運輸資訊為準。'],
   ['有停車場、廁所與無障礙設施嗎？','官方資料列有漁港周邊停車場；交通部觀光署並列出 2 間無障礙廁所、1 台輪椅借用以及無障礙斜坡。一般廁所、停車費率與可用車位仍以現場為準。'],
   ['不吃生食也適合來嗎？','適合。市場除鮮魚與生食，也有熟食、漁特產與可將選購漁貨交由料理的服務型態。對海鮮過敏或有特殊飲食需求者，應直接向攤位確認食材與交叉接觸風險。'],
   [`${ATTRACTION_FULL_NAME}在哪裡？地址與電話是什麼？`,`地址是${COUNTRY_NAME}${STATE_PROVINCE}${CITY_NAME}朝隆路39號（郵遞區號 ${POSTAL_CODE}），電話 ${TELEPHONE_DISPLAY}（${TELEPHONE}），地圖座標參考 為 ${PIN_REFERENCE}。導航可直接搜尋「${ATTRACTION_SHORT_NAME}」或「${ATTRACTION_FULL_NAME}」，也可以開啟 Google 地圖分享連結：${MAPS_SHARE_URL}`],
-  [`${ATTRACTION_SHORT_NAME}的 Google 評分（2026-10-20）是多少？`,`本站引用2026年10月20日 Google 地圖公開評分快照 ${RATING_VALUE}／5（約 ${RATING_COUNT.toLocaleString('en-US')} 則）。這是會變動的第三方資料，僅供參考，實際數值請以 Google 地圖即時頁面為準。`],
+  [`${ATTRACTION_SHORT_NAME}的 Google 評分（2026-10-29）是多少？`,`本站引用2026年10月29日 Google 地圖公開評分快照 ${RATING_VALUE}／5（約 ${RATING_COUNT.toLocaleString('en-US')} 則）。這是會變動的第三方資料，僅供參考，實際數值請以 Google 地圖即時頁面為準。`],
   [`逛${ATTRACTION_SHORT_NAME}需要門票嗎？`,`公開官方資料未列一般參觀門票金額；這不等同本指南確認所有活動或服務免費。消費、停車與個別服務請先確認條件和費用。`],
   [`${ATTRACTION_SHORT_NAME}附近有哪些順遊景點？`,`可另查${NEARBY_LANDMARK_1}與${NEARBY_LANDMARK_2}的官方介紹。兩處與市場是不同目的地；連接路線、當日通行和開放安排未由本指南核實。大鵬灣濕地等其他候選也需分別研究。`],
   ['市場內可以刷卡或使用行動支付嗎？','各攤位提供的支付方式不同，部分攤位僅收現金。建議同時備妥現金與至少一種行動支付，並在消費前確認是否另收手續費或低消限制。'],
@@ -137,7 +138,7 @@ const mapSrc = MAPS_EMBED_SRC;
           <span>{CITY_NAME}</span><span aria-hidden="true">›</span>
           <span aria-current="page" class="text-[#ffd773]">{ATTRACTION_FULL_NAME}</span>
         </nav>
-        <div class="mb-5 flex flex-wrap gap-2"><span class="badge !border-white/25 !bg-white/12 !text-white">屏東・東港</span><span class="badge !border-white/25 !bg-white/12 !text-white">漁港文化 × 黃昏魚市</span><span class="badge !border-white/25 !bg-white/12 !text-white">2026-10-20 Google ★ {RATING_VALUE}（{RATING_COUNT.toLocaleString('en-US')} 則）</span></div>
+        <div class="mb-5 flex flex-wrap gap-2"><span class="badge !border-white/25 !bg-white/12 !text-white">屏東・東港</span><span class="badge !border-white/25 !bg-white/12 !text-white">漁港文化 × 黃昏魚市</span><span class="badge !border-white/25 !bg-white/12 !text-white">2026-10-29 Google ★ {RATING_VALUE}（{RATING_COUNT.toLocaleString('en-US')} 則）</span></div>
         <p class="text-sm font-extrabold tracking-[.24em] text-[#ffd773]">{ATTRACTION_EN_NAME}</p>
         <h1 class="mt-3 max-w-4xl text-[clamp(1.95rem,5.2vw,4.4rem)] font-black leading-[1.04] tracking-[-.045em]">{ATTRACTION_FULL_NAME}｜{STATE_PROVINCE}{CITY_SHORT}<br/><span class="text-[#ffd773]">海味上岸的地方</span></h1>
         <p class="mt-7 max-w-2xl text-lg text-[#d7e9e6]">不是只為「吃海鮮」而來。這裡更像一堂正在發生的東港漁業課：看魚貨、看市場如何分區，也看渡船、漁港與大鵬灣如何共同塑造這座海邊城鎮。</p>
@@ -151,9 +152,9 @@ const mapSrc = MAPS_EMBED_SRC;
           <div><dt class="text-[#9fc5c1]">建議停留</dt><dd class="mt-1 font-extrabold">約 1–2 小時</dd></div>
           <div><dt class="text-[#9fc5c1]">地址</dt><dd class="mt-1 font-extrabold">{STATE_PROVINCE}{CITY_NAME}朝隆路 39 號</dd></div>
           <div><dt class="text-[#9fc5c1]">電話</dt><dd class="mt-1 font-extrabold"><a href={`tel:${TELEPHONE}`} class="hover:text-[#ffd773]">{TELEPHONE_DISPLAY}</a></dd></div>
-          <div><dt class="text-[#9fc5c1]">Google 評分（2026-10-20）</dt><dd class="mt-1 font-extrabold">★ {RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）</dd></div>
+          <div><dt class="text-[#9fc5c1]">Google 評分（2026-10-29）</dt><dd class="mt-1 font-extrabold">★ {RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）</dd></div>
         </dl>
-        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">* 2026-10-20：地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00；兩官方來源列首個星期二清潔休。請先向營運單位確認。</p>
+        <p class="mt-5 border-t border-white/15 pt-4 text-xs text-[#bbd4d0]">* 2026-10-29：地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00；兩官方來源列首個星期二清潔休。請先向營運單位確認。</p>
       </div>
     </div>
   </section>
@@ -181,7 +182,7 @@ const mapSrc = MAPS_EMBED_SRC;
           <div><dt class="text-[#6d8589]">地址</dt><dd class="mt-1 font-extrabold text-[#092f37]">{COUNTRY_NAME}{STATE_PROVINCE}{CITY_NAME}朝隆路39號（{POSTAL_CODE}）</dd></div>
           <div><dt class="text-[#6d8589]">座標</dt><dd class="mt-1 font-extrabold text-[#092f37]">{LATITUDE}, {LONGITUDE}｜座標參考 {PIN_REFERENCE}</dd></div>
           <div><dt class="text-[#6d8589]">電話</dt><dd class="mt-1 font-extrabold text-[#092f37]"><a href={`tel:${TELEPHONE}`} class="underline decoration-[#0b6871]/30 underline-offset-4">{TELEPHONE_DISPLAY}</a></dd></div>
-          <div><dt class="text-[#6d8589]">Google 評分（2026-10-20）</dt><dd class="mt-1 font-extrabold text-[#092f37]">★ {RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則，第三方公開快照）</dd></div>
+          <div><dt class="text-[#6d8589]">Google 評分（2026-10-29）</dt><dd class="mt-1 font-extrabold text-[#092f37]">★ {RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則，第三方公開快照）</dd></div>
           <div><dt class="text-[#6d8589]">入場</dt><dd class="mt-1 font-extrabold text-[#092f37]">門票未確認；消費另計</dd></div>
         </dl>
       </div>
@@ -271,7 +272,7 @@ const mapSrc = MAPS_EMBED_SRC;
       <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {[
           ['🚻 WC／無障礙','觀光署資料列有 2 間無障礙廁所、1 台輪椅借用與無障礙斜坡；一般廁所位置以現場標示為準。'],
-          ['🅿️ 停車','2026-10-20查閱的觀光署頁列有東港漁港停車場、東港中正新基停車場；此為來源記錄。連假與渡船尖峰容易壅塞，車位、費率與出入口以現場為準。'],
+          ['🅿️ 停車','2026-10-29查閱的觀光署頁列有東港漁港停車場、東港中正新基停車場；此為來源記錄。連假與渡船尖峰容易壅塞，車位、費率與出入口以現場為準。'],
           ['🍽️ 餐飲','市場內有生／熟食與料理型態；周邊亦有海鮮餐飲。本站只提供類型，不對特定店家做推薦或排名。'],
           ['🛏️ 住宿','若要搭早班船、看港區晨昏或串聯大鵬灣，可搜尋東港鎮合法旅館、旅店、民宿等類型，並在臺灣旅宿網確認登記狀態。'],
           ['🛒 商超／補給','東港市區可補充飲水、雨具、保冷袋、日用品與簡易藥品；請依步行距離與營業狀況自行選擇，不指定商戶。'],
@@ -302,18 +303,7 @@ const mapSrc = MAPS_EMBED_SRC;
     </div>
   </section>
 
-  <section class="section">
-    <div class="shell">
-      <p class="eyebrow">專題指南</p>
-      <h2 class="h2">更深入的東港華僑市場攻略</h2>
-      <p class="lead">針對最常被搜尋的營業時間、停車交通與美食，我們整理成獨立專頁，方便你按需求快速帶走重點。</p>
-      <div class="mt-8 grid gap-5 md:grid-cols-3">
-        <a href="/hours/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🕐</div><h3 class="mt-4 text-xl font-black">營業時間專頁</h3><p class="mt-2 text-sm text-[#456267]">地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00與官方清潔公休的來源比對。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看營業時間 →</span></a>
-        <a href="/parking/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🅿️</div><h3 class="mt-4 text-xl font-black">停車交通專頁</h3><p class="mt-2 text-sm text-[#456267]">周邊停車、自臺88與國道自駕、公車到站，以及連假壅塞提醒。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看停車交通 →</span></a>
-        <a href="/food/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🐟</div><h3 class="mt-4 text-xl font-black">美食推薦專頁</h3><p class="mt-2 text-sm text-[#456267]">黑鮪魚生魚片、旗魚黑輪、現流海鮮代客料理與選購注意。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看美食 →</span></a>
-      </div>
-    </div>
-  </section>
+  <TopicLinks />
 
   <section class="section bg-[#edf5f2]" id="faq">
     <div class="shell"><p class="eyebrow">FAQ</p><h2 class="h2">常見問答</h2><div class="mt-7 grid gap-4">{faqs.map(([q,a])=><details class="card group p-6"><summary class="cursor-pointer list-none pr-8 text-lg font-black">{q}</summary><p class="mt-4 border-t border-[#0b6871]/10 pt-4 text-[#526d72]">{a}</p></details>)}</div></div>

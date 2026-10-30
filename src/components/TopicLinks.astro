@@ -1,0 +1,31 @@
+---
+import type { TopicGroup } from '../data/topics/types';
+import { allTopics, topicsByGroup, topicUrl, TOPIC_GROUP_LABELS } from '../data/topics';
+
+const groups: TopicGroup[] = ['market', 'food', 'transport', 'nearby', 'itineraries', 'seasons'];
+const grouped = groups.map((g) => ({ group: g, label: TOPIC_GROUP_LABELS[g], topics: topicsByGroup(g) }));
+---
+
+<section class="section bg-[#edf5f2]" id="guides">
+  <div class="shell">
+    <p class="eyebrow">主題指南</p>
+    <h2 class="h2">東港華僑市場 42 個主題攻略</h2>
+    <p class="mt-4 max-w-3xl text-lg text-[#33484d]">從第一次怎麼逛、怎麼買、怎麼吃，到交通、周邊、行程與季節，一次整理常見問題。</p>
+    <div class="mt-10 space-y-12">
+      {grouped.map((grp) => (
+        <div>
+          <h3 class="text-xl font-black text-[#0b6871]">{grp.label}</h3>
+          <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {grp.topics.map((t) => (
+              <a href={topicUrl(t.slug)} class="card p-6 transition hover:-translate-y-0.5 hover:shadow-md">
+                <h4 class="text-lg font-black leading-snug">{t.h1}</h4>
+                <p class="mt-2 line-clamp-2 text-sm text-[#456267]">{t.lead}</p>
+                <span class="mt-3 inline-block text-sm font-black text-[#0b6871]">閱讀專題 →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

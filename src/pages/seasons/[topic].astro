@@ -1,0 +1,14 @@
+---
+import TopicPage from '../../components/TopicPage.astro';
+import { topicsByGroup } from '../../data/topics';
+
+export function getStaticPaths() {
+  return topicsByGroup('seasons').map((t) => ({
+    params: { topic: t.slug.split('/')[1] },
+    props: { topic: t }
+  }));
+}
+
+const { topic } = Astro.props;
+---
+<TopicPage topic={topic} />

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import TopicLinks from '../components/TopicLinks.astro';
 import {
   SITE_NAME, SITE_URL, withSiteName, ATTRACTION_FULL_NAME,
   STATE_PROVINCE, CITY_NAME, TELEPHONE, TELEPHONE_DISPLAY, MAPS_SHARE_URL, RATING_VALUE, RATING_COUNT
@@ -39,7 +40,7 @@ const faqSchema = {
         </nav>
         <p class="eyebrow !text-[#ffd773]">在地飲食</p>
         <h1 class="mt-2 text-[clamp(1.8rem,4.5vw,3.4rem)] font-black leading-[1.05] tracking-[-.03em]">東港華僑市場美食指南</h1>
-        <p class="mt-5 max-w-2xl text-[#d7e9e6]">本站不接受商業置入，也不推薦特定商戶。來東港可以從地方漁業與飲食文化的「類型」理解風味，再依衛生、標價、飲食需求與當天漁獲自行選擇。Google 評分（2026-10-20）{RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）。</p>
+        <p class="mt-5 max-w-2xl text-[#d7e9e6]">本站不接受商業置入，也不推薦特定商戶。來東港可以從地方漁業與飲食文化的「類型」理解風味，再依衛生、標價、飲食需求與當天漁獲自行選擇。Google 評分（2026-10-29）{RATING_VALUE}／5（{RATING_COUNT.toLocaleString('en-US')} 則）。</p>
         <div class="mt-7 flex flex-wrap gap-3">
           <a href={MAPS_SHARE_URL} target="_blank" rel="noopener noreferrer" class="rounded-full bg-[#0b6871] px-5 py-3 text-sm font-black text-white">Google 地圖分享連結</a>
           <a href={`tel:${TELEPHONE}`} class="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-black">電話 {TELEPHONE_DISPLAY}</a>
@@ -82,16 +83,7 @@ const faqSchema = {
     </div>
   </section>
 
-  <section class="section">
-    <div class="shell">
-      <p class="eyebrow">相關專題</p>
-      <h2 class="h2">其他東港華僑市場攻略</h2>
-      <div class="mt-8 grid gap-5 md:grid-cols-2">
-        <a href="/hours/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🕐</div><h3 class="mt-4 text-xl font-black">營業時間專頁</h3><p class="mt-2 text-sm text-[#456267]">地圖09:00–18:30、觀光署11:00–20:00、大鵬灣12:00–20:00與官方清潔公休的來源比對。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看營業時間 →</span></a>
-        <a href="/parking/" class="card p-7 transition hover:-translate-y-0.5 hover:shadow-md"><div class="text-3xl">🅿️</div><h3 class="mt-4 text-xl font-black">停車交通專頁</h3><p class="mt-2 text-sm text-[#456267]">周邊停車、自臺88與國道自駕、公車到站，以及連假壅塞提醒。</p><span class="mt-4 inline-block text-sm font-black text-[#0b6871]">查看停車交通 →</span></a>
-      </div>
-    </div>
-  </section>
+  <TopicLinks />
 
   <section class="section bg-[#edf5f2]" id="faq">
     <div class="shell">

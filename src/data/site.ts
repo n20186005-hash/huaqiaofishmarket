@@ -60,8 +60,10 @@ export const GOVT_SCENIC_NAME = '交通部觀光署大鵬灣國家風景區管�
 
 /** 第三方公開評分快照（會變動，僅作參考） */
 export const RATING_VALUE = 4.3;
-export const RATING_COUNT = 39645;
-export const RATING_SOURCE_NOTE = '2026-10-20 Google 地圖公開評分快照（4.3／5，39,645 則）';
+export const RATING_COUNT = 39704;
+/** 評分快照的最後核對日期 */
+export const RATING_AS_OF = '2026-10-29';
+export const RATING_SOURCE_NOTE = `${RATING_AS_OF} Google 地圖公開評分快照（4.3／5，${RATING_COUNT.toLocaleString('en-US')} 則）`;
 
 /** SEO 站名格式：景點名稱 + 城市 + 旅遊指南 */
 export const SITE_NAME = `${ATTRACTION_FULL_NAME}｜${CITY_SHORT}旅遊指南`;
